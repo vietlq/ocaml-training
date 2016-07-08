@@ -7,3 +7,6 @@ OBC=ocamlfind ocamlopt -linkpkg
 002: o002_hello_user.ml
 	$(OBC) o002_hello_user.ml -o 002_hello_user
 
+003: o003_random_int.ml
+	$(OBC) o003_random_int.ml -o 003_random_int
+
