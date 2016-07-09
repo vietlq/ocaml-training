@@ -1,6 +1,11 @@
 # OCaml build command
 OBC=ocamlfind ocamlopt -linkpkg
 
+.PHONY: default
+
+default:
+	$(info Pick right build command)
+
 001: o001_grep_lines.ml
 	$(OBC) -package re.posix o001_grep_lines.ml -o 001_grep_lines
 
@@ -24,4 +29,7 @@ OBC=ocamlfind ocamlopt -linkpkg
 
 008: o008_mat_check_zeros.ml
 	$(OBC) o008_mat_check_zeros.ml -o 008_mat_check_zeros
+
+clean:
+	rm -rf *.o *.cmi *.cmx *.cma _build
 
