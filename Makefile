@@ -13,3 +13,6 @@ OBC=ocamlfind ocamlopt -linkpkg
 004: o004_ask_time.ml
 	$(OBC) -package unix o004_ask_time.ml -o 004_ask_time
 
+005: o005_count_letters.ml
+	$(OBC) o005_count_letters.ml -o 005_count_letters
+
