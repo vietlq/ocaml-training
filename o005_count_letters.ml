@@ -5,11 +5,12 @@ let count s =
     | _ -> false
     in
     let len = String.length s in
-    let rec loop i =
-        if i = len then 0
+    let rec loop i total =
+        if i = len then total
         else
             let c = String.get s i in
-            (if (is_alpha c) then 1 else 0) + loop (i + 1) in
-    loop 0 ;;
+            let total = total + (if (is_alpha c) then 1 else 0) in
+            loop (i + 1) total in
+    loop 0 0 ;;
 
 Printf.printf "count = %d\n%!" (count (read_line ()));;
