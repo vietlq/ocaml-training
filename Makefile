@@ -10,3 +10,6 @@ OBC=ocamlfind ocamlopt -linkpkg
 003: o003_random_int.ml
 	$(OBC) o003_random_int.ml -o 003_random_int
 
+004: o004_ask_time.ml
+	$(OBC) -package unix o004_ask_time.ml -o 004_ask_time
+
