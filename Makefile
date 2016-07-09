@@ -22,3 +22,6 @@ OBC=ocamlfind ocamlopt -linkpkg
 007: o007_array_matrix.ml
 	$(OBC) o007_array_matrix.ml -o 007_array_matrix
 
+008: o008_mat_check_zeros.ml
+	$(OBC) o008_mat_check_zeros.ml -o 008_mat_check_zeros
+
