@@ -19,3 +19,6 @@ OBC=ocamlfind ocamlopt -linkpkg
 006: o006_ref_name.ml
 	$(OBC) o006_ref_name.ml -o 006_ref_name
 
+007: o007_array_matrix.ml
+	$(OBC) o007_array_matrix.ml -o 007_array_matrix
+
