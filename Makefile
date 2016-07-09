@@ -16,3 +16,6 @@ OBC=ocamlfind ocamlopt -linkpkg
 005: o005_count_letters.ml
 	$(OBC) o005_count_letters.ml -o 005_count_letters
 
+006: o006_ref_name.ml
+	$(OBC) o006_ref_name.ml -o 006_ref_name
+
