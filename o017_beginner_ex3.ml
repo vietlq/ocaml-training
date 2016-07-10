@@ -71,3 +71,23 @@ let lobound, hibound = bounds [10.; 14.; 5.; 7.; 9.; 1.; 2.; 12.;] ;;
 Printf.printf "bounds [10.; 14.; 5.; 7.; 9.; 1.; 2.; 12.;] = (%g, %g)\n"
     lobound hibound;;
 
+(* sum, reduce *)
+let rec sum l =
+    match l with
+    | [] -> 0
+    | x :: tl -> x + sum tl
+;;
+
+let rec reduce f unitval l =
+    match l with
+    | [] -> unitval
+    | x :: tl -> f x (reduce f unitval tl)
+;;
+
+(* succs, map *)
+let rec succs f l =
+    match l with
+    | [] -> []
+    | x :: tl -> f x :: succs f tl
+;;
+
