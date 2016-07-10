@@ -72,6 +72,9 @@ default:
 018: o018_beginner_ex4.ml
 	$(OBC) o018_beginner_ex4.ml -o 018_beginner_ex4
 
+019: o019_beginner_ex5.ml
+	$(OBC) o019_beginner_ex5.ml -o 019_beginner_ex5
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma _build
 
