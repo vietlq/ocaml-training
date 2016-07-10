@@ -48,6 +48,9 @@ default:
 010: o010_basic_loops.ml
 	$(OBC) o010_basic_loops.ml -o 010_basic_loops
 
+011: o011_loop_interval.ml
+	$(OBC) o011_loop_interval.ml -o 011_loop_interval
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma _build
 
