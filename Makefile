@@ -45,6 +45,9 @@ default:
 009: o009_record_matches.ml
 	$(OBC) o009_record_matches.ml -o 009_record_matches
 
+010: o010_basic_loops.ml
+	$(OBC) o010_basic_loops.ml -o 010_basic_loops
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma _build
 
