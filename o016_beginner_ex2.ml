@@ -96,3 +96,27 @@ let guess word masked chars =
 ;;
 guess word masked ['c'; 'b'; 'a'; 'r'; 'p'; 'm'; 'i'; 'n'];;
 
+(* String predicate *)
+let string_forall (s : string) (pred : char -> bool) : bool =
+    let length = String.length s in
+    let rec loop i =
+        if i < length then
+            let c = String.get s i in
+            if pred c then loop (i + 1)
+            else false
+        else
+            true
+    in loop 0
+;;
+
+let ischarup (c : char) =
+    match c with
+    | 'a'..'z' -> false
+    | _ -> true
+;;
+
+Printf.printf "string_forall 'Misha1234' ischarup = %b\n" (string_forall "Misha1234" ischarup) ;;
+Printf.printf "string_forall 'MISHA1234' ischarup = %b\n" (string_forall "MISHA1234" ischarup) ;;
+Printf.printf "string_forall '1234' ischarup = %b\n" (string_forall "1234" ischarup) ;;
+Printf.printf "string_forall '' ischarup = %b\n" (string_forall "" ischarup) ;;
+
