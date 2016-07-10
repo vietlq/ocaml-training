@@ -51,6 +51,9 @@ default:
 011: o011_loop_interval.ml
 	$(OBC) o011_loop_interval.ml -o 011_loop_interval
 
+012: o012_store_function.ml
+	$(OBC) o012_store_function.ml -o 012_store_function
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma _build
 
