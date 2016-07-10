@@ -61,3 +61,38 @@ let cowboy (s : string) : string =
 
 Printf.printf "cowboy 'Hey there! Programming is fun!' = %s\n" (cowboy "Hey there! Programming is fun!") ;;
 
+(* Hangman game starts here *)
+let hangman_init (word : string) : string =
+    Bytes.make (String.length word) '_'
+;;
+
+Printf.printf "hangman_init 'Programming' = %s\n" (hangman_init "Programming") ;;
+
+let hangman_step (word : string) (partial : bytes) (c : char) : bool =
+    let length = String.length word in
+    let rec loop i res =
+        if i < length then
+            let cc = String.get word i in
+            let uc = Char.uppercase_ascii c in
+            let ucc = Char.uppercase_ascii cc in
+            if uc = ucc then
+                begin
+                    Bytes.set partial i uc ;
+                    loop (i + 1) true
+                end
+            else
+                loop (i + 1) res
+        else res
+    in loop 0 false
+;;
+
+let word = "Programming" ;;
+let masked = Bytes.of_string (hangman_init word) ;;
+let guess word masked chars =
+    let printer c =
+        Printf.printf "hangman_step word masked '%c' = %b\n" c (hangman_step word masked c) ;
+        Printf.printf "masked = %s\n" (Bytes.to_string masked)
+    in List.iter printer chars
+;;
+guess word masked ['c'; 'b'; 'a'; 'r'; 'p'; 'm'; 'i'; 'n'];;
+
