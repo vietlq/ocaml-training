@@ -54,6 +54,9 @@ default:
 012: o012_store_function.ml
 	$(OBC) o012_store_function.ml -o 012_store_function
 
+013: o013_make_generator.ml
+	$(OBC) o013_make_generator.ml -o 013_make_generator
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma _build
 
