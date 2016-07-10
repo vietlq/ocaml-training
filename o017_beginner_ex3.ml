@@ -54,3 +54,20 @@ Printf.printf "increasing [1;1;2;3;4] = %b\n" (increasing [1;1;2;3;4]) ;;
 Printf.printf "increasing [1;1;2;3;3] = %b\n" (increasing [1;1;2;3;3]) ;;
 Printf.printf "increasing [1;1;1;1;1] = %b\n" (increasing [1;1;1;1;1]) ;;
 
+(* Find the minimum interval that contains all floats in the list *)
+let rec pick pred l =
+    match l with
+    | [] -> failwith "Nothing to be done for empty list"
+    | [x] -> x
+    | x :: y :: tl ->
+        if pred x y then pick pred (x :: tl)
+        else pick pred (y :: tl)
+;;
+let min l = pick (<) l ;;
+let max l = pick (>) l ;;
+let bounds l = (min l, max l) ;;
+
+let lobound, hibound = bounds [10.; 14.; 5.; 7.; 9.; 1.; 2.; 12.;] ;;
+Printf.printf "bounds [10.; 14.; 5.; 7.; 9.; 1.; 2.; 12.;] = (%g, %g)\n"
+    lobound hibound;;
+
