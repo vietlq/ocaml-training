@@ -40,3 +40,17 @@ let list4 = low_pass_filter list3 9.5 ;;
 print_string "After low_pass_filter with threshold 9.5:\n" ;;
 print_float_list list4 ;;
 
+(* Predicate to detect increasing list *)
+let rec increasing l =
+    match l with
+    | [] | [_] -> true
+    | x :: y :: tl ->
+        if y < x then false
+        else increasing (y :: tl)
+;;
+
+Printf.printf "increasing [1;1;2;3;2] = %b\n" (increasing [1;1;2;3;2]) ;;
+Printf.printf "increasing [1;1;2;3;4] = %b\n" (increasing [1;1;2;3;4]) ;;
+Printf.printf "increasing [1;1;2;3;3] = %b\n" (increasing [1;1;2;3;3]) ;;
+Printf.printf "increasing [1;1;1;1;1] = %b\n" (increasing [1;1;1;1;1]) ;;
+
