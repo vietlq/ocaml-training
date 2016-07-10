@@ -60,6 +60,9 @@ default:
 014: o014_match_try_recursion.ml
 	$(OBC) o014_match_try_recursion.ml -o 014_match_try_recursion
 
+015: o015_beginner_ex1.ml
+	$(OBC) o015_beginner_ex1.ml -o 015_beginner_ex1
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma _build
 
