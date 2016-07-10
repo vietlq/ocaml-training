@@ -13,3 +13,14 @@ let positive_part (a : float) : float =
 ;;
 
 Printf.printf "positive_part (-3.2) = %f\n" (positive_part (-3.2)) ;;
+
+let sizeof_int =
+    let rec loop num bits =
+        if num > 0 then loop (num/2) (bits+1)
+        else bits
+    in (loop max_int 0) + 1
+    (* The extra 1 is due to the fact that there are the same number of negative integers *)
+;;
+
+Printf.printf "sizeof_int = %d\n" sizeof_int ;;
+
