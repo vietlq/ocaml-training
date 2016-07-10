@@ -35,3 +35,17 @@ let rec ones num =
 ;;
 
 Printf.printf "ones 1001 = %d\n" (ones 1001) ;;
+
+(* Start from 1 and shift left until we overflow *)
+let sizeof_int2 =
+    let rec shift n =
+        if (n + n) <= n then 1 else 1 + shift (n + n)
+    in shift 1 + 1 ;;
+
+Printf.printf "sizeof_int2 = %d\n" sizeof_int2 ;;
+
+(* Do bit and with 1 and shift right, keep doing until we can't shift *)
+let rec ones2 n =
+    if n = 0 then 0 else n land 1 + ones (n lsr 1) ;;
+
+Printf.printf "ones2 1001 = %d\n" (ones2 1001) ;;

@@ -63,6 +63,9 @@ default:
 015: o015_beginner_ex1.ml
 	$(OBC) o015_beginner_ex1.ml -o 015_beginner_ex1
 
+016: o016_beginner_ex2.ml
+	$(OBC) o016_beginner_ex2.ml -o 016_beginner_ex2
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma _build
 
