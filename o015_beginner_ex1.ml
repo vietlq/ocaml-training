@@ -24,3 +24,14 @@ let sizeof_int =
 
 Printf.printf "sizeof_int = %d\n" sizeof_int ;;
 
+let rec ones num =
+    match num with
+    | 0 -> 0
+    | 1 | 2 | 4 | 8 -> 1
+    | 3 | 5 | 9 | 6 | 10 | 12 -> 2
+    | 7 | 11 | 13 | 14 -> 3
+    | 15 -> 4
+    | num -> (ones (num / 16)) + (ones (num mod 16))
+;;
+
+Printf.printf "ones 1001 = %d\n" (ones 1001) ;;
