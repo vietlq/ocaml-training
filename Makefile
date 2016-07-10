@@ -57,6 +57,9 @@ default:
 013: o013_make_generator.ml
 	$(OBC) o013_make_generator.ml -o 013_make_generator
 
+014: o014_match_try_recursion.ml
+	$(OBC) o014_match_try_recursion.ml -o 014_match_try_recursion
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma _build
 
