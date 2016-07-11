@@ -81,6 +81,9 @@ default:
 021: o021_beginner_ex7.ml
 	$(OBC) o021_beginner_ex7.ml -o 021_beginner_ex7
 
+022: o022_tuples_sample.ml
+	$(OBC) o022_tuples_sample.ml -o 022_tuples_sample
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
 
