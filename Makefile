@@ -93,6 +93,9 @@ default:
 025: o025_sum_types_basic.ml
 	$(OBC) o025_sum_types_basic.ml -o 025_sum_types_basic
 
+026: o026_sum_types_exceptions.ml
+	$(OBC) o026_sum_types_exceptions.ml -o 026_sum_types_exceptions
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
 
