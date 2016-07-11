@@ -82,5 +82,5 @@ default:
 	$(OBC) o021_beginner_ex7.ml -o 021_beginner_ex7
 
 clean:
-	rm -rf *.o *.cmi *.cmx *.cma _build
+	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
 
