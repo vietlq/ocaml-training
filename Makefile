@@ -87,6 +87,9 @@ default:
 023: o023_records_sample.ml
 	$(OBC) o023_records_sample.ml -o 023_records_sample
 
+024: o024_mutable_records_sample.ml
+	$(OBC) o024_mutable_records_sample.ml -o 024_mutable_records_sample
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
 
