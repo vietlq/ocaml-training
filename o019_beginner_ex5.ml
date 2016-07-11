@@ -57,12 +57,13 @@ let transpose_square_mat mat =
     done
 ;;
 
+let print_array_int arr =
+    print_string "  [|" ;
+    Array.iter (Printf.printf "%4d; ") arr ;
+    print_endline "|];"
+;;
 let print_matrix_int mat =
-    let print_array_int arr =
-        print_string "  [|" ;
-        Array.iter (Printf.printf "%4d; ") arr ;
-        print_endline "|];"
-    in print_endline "[|" ;
+    print_endline "[|" ;
     Array.iter print_array_int mat ;
     print_endline "|]"
 ;;
@@ -102,4 +103,21 @@ let mat1 = gen_matrix_int 5 5 (-42) 72 ;;
 print_matrix_int mat1 ;;
 transpose_square_mat mat1 ;;
 print_matrix_int mat1 ;;
+
+(* Histogram of chars *)
+let string_stats (s : string) =
+    let arr = Array.make 256 0 in
+    for i = 0 to (String.length s - 1) do
+        let code = Char.code (String.get s i) in
+        arr.(code) <- 1 + arr.(code)
+    done ;
+    arr
+;;
+
+let string2 = "Array.make n x returns a fresh array of length n, initialized with x. All the elements of this new array are initially physically equal to x (in the sense of the == predicate). Consequently, if x is mutable, it is shared among all elements of the array, and modifying x through one of the array entries will modify all other entries at the same time.\n" ;;
+
+print_string string2 ;;
+let stats = string_stats string2 ;;
+print_array_int stats ;;
+
 
