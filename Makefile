@@ -84,6 +84,9 @@ default:
 022: o022_tuples_sample.ml
 	$(OBC) o022_tuples_sample.ml -o 022_tuples_sample
 
+023: o023_records_sample.ml
+	$(OBC) o023_records_sample.ml -o 023_records_sample
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
 
