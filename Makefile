@@ -78,6 +78,9 @@ default:
 020: o020_beginner_ex6.ml
 	$(OBC) o020_beginner_ex6.ml -o 020_beginner_ex6
 
+021: o021_beginner_ex7.ml
+	$(OBC) o021_beginner_ex7.ml -o 021_beginner_ex7
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma _build
 
