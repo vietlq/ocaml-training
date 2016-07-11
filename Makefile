@@ -90,6 +90,9 @@ default:
 024: o024_mutable_records_sample.ml
 	$(OBC) o024_mutable_records_sample.ml -o 024_mutable_records_sample
 
+025: o025_sum_types_basic.ml
+	$(OBC) o025_sum_types_basic.ml -o 025_sum_types_basic
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
 
