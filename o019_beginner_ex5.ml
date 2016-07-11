@@ -120,4 +120,23 @@ print_string string2 ;;
 let stats = string_stats string2 ;;
 print_array_int stats ;;
 
+(* Find occurences of specified characters in a string *)
+let occurences (s : string) chars =
+    let stats = string_stats s in
+    let len = Array.length chars in
+    let arr = Array.make len 0 in
+    for i = 0 to (len - 1) do
+        let code = Char.code chars.(i) in
+        arr.(i) <- stats.(code)
+    done ;
+    arr
+;;
+
+let res1 = occurences string2 [| 'a'; 'b'; 'z' |] ;;
+print_endline "** occurences string2 [| 'a'; 'b'; 'z' |]:" ;;
+print_array_int res1 ;;
+
+let res2 = occurences string2 [| 'c'; 'd'; 'a'; 'e' |] ;;
+print_endline "** occurences string2 [| 'c'; 'd'; 'a'; 'e' |]:" ;;
+print_array_int res2 ;;
 
