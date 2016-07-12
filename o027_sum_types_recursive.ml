@@ -5,6 +5,7 @@
  * Always remember to specify & handle base case for recursion
 *)
 
+(* Binary tree example *)
 type node = {
     mutable value : float ;
     mutable left : node option ;
@@ -29,4 +30,26 @@ let node5 = make_node 5. (Some node3) (Some node4) ;;
 
 infix (Printf.printf "%g; ") (Some node5) ;;
 print_endline "" ;;
+
+(* Example with sum of types *)
+type roadmap =
+    | Stop
+    | Take of string * roadmap
+    | Drive of int * roadmap
+
+let print_roadmap roadmap =
+    let rec loop count mile = function
+        | Stop ->
+            Printf.printf "%d. At mile %d stop.\n" count mile
+        | Take (dir, rest) ->
+            Printf.printf "%d. At mile %d take exit %s.\n" count mile dir ;
+            loop (count + 1) mile rest
+        | Drive (n, rest) ->
+            Printf.printf "%d. Drive for %d miles\n" count n ;
+            loop (count + 1) (mile + n) rest
+    in loop 1 0 roadmap
+;;
+
+let roadmap1 = Drive (12, Take ("Route 66", Drive (30, Stop))) ;;
+print_roadmap roadmap1 ;;
 
