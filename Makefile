@@ -96,6 +96,9 @@ default:
 026: o026_sum_types_exceptions.ml
 	$(OBC) o026_sum_types_exceptions.ml -o 026_sum_types_exceptions
 
+027: o027_sum_types_recursive.ml
+	$(OBC) o027_sum_types_recursive.ml -o 027_sum_types_recursive
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
 
