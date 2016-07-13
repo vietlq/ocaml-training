@@ -75,7 +75,7 @@ and link = {
 }
 and directory = {
     dname : string ;
-    contains : dir_content list    
+    contents : dir_content list    
 }
 and dir_content =
     | File of file
@@ -83,4 +83,59 @@ and dir_content =
     | Directory of directory
 (* End of definition *)
 
+let make_file fname lat size = { fname ; lat ; size } ;;
+let make_link lname soft target = { lname ; soft ; target } ;;
+let make_directory dname contents = { dname ; contents } ;;
+
+let int_gen () = Int64.of_int (Random.int 1234567)
+let file1 = make_file "news.txt" (int_gen ()) (int_gen ()) ;;
+let file2 = make_file "code.ml" (int_gen ()) (int_gen ()) ;;
+let link1 = make_link "secret" true "../keys" ;;
+let link2 = make_link "acopy_of_tests.log" false "/tests/01/02/logs" ;;
+let contents1 = [ File file1 ; Link link2 ] ;;
+let dir1 = make_directory "docs" contents1 ;;
+let contents2 = [ File file2 ; Link link1 ; Directory dir1 ] ;;
+let dir2 = make_directory "work" contents2 ;;
+
+let print_ls_header () =
+    Printf.printf "%4s %19s %19s %s\n" "Type" "Last Accessed Time" "Size" "Name"
+;;
+
+let print_file (f : file) () =
+    Printf.printf "%4s %19s %19s %s\n" "F"
+        (Int64.to_string f.lat)
+        (Int64.to_string f.size)
+        f.fname
+;;
+
+let print_link (l : link) () =
+    let name = l.lname ^ " -> " ^ l.target in
+    let name = if l.soft then ("*" ^ name) else name in
+    Printf.printf "%4s %19s %19s %s\n" "L" "" "" name
+;;
+
+let print_direction (d : directory) () =
+    Printf.printf "%4s %19s %19d %s\n" "D" "" (List.length d.contents) d.dname
+;;
+
+let rec dir_content_printer = function
+    | File f -> print_file f ()
+    | Link l -> print_link l ()
+    | Directory d ->
+        print_direction d () ;
+        List.iter dir_content_printer d.contents
+;;
+
+let ls_cmd dir_content =
+    print_ls_header () ;
+    dir_content_printer dir_content
+;;
+
+let ls_cmd_list ldc =
+    print_ls_header () ;
+    List.iter dir_content_printer ldc
+;;
+
+ls_cmd (Directory dir2) ;;
+ls_cmd_list [] ;;
 
