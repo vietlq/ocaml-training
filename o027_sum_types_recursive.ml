@@ -53,3 +53,34 @@ let print_roadmap roadmap =
 let roadmap1 = Drive (12, Take ("Route 66", Drive (30, Stop))) ;;
 print_roadmap roadmap1 ;;
 
+(* More recursive types *)
+type road = {
+    name : string ;
+    exits : (int * exit) list
+}
+and exit =
+    | Exit of road | Toll of float * road | Service
+;;
+
+(* File system *)
+type file = {
+    fname : string ;
+    lat : int64 ;
+    size : int64 ;
+}
+and link = {
+    lname : string ;
+    soft : bool ;
+    target : string ;
+}
+and directory = {
+    dname : string ;
+    contains : dir_content list    
+}
+and dir_content =
+    | File of file
+    | Link of link
+    | Directory of directory
+(* End of definition *)
+
+
