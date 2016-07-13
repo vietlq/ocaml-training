@@ -102,6 +102,9 @@ default:
 028: o028_polymorphic_types.ml
 	$(OBC) o028_polymorphic_types.ml -o 028_polymorphic_types
 
+030: o030_references.ml
+	$(OBC) o030_references.ml -o 030_references
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
 
