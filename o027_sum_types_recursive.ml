@@ -122,13 +122,14 @@ let print_direction (d : directory) ppfix () =
 ;;
 
 let rec dir_content_printer dir_content =
-    let rec aux ppfix = function
+    let rec aux level ppfix = function
         | File f -> print_file f ppfix ()
         | Link l -> print_link l ppfix ()
         | Directory d ->
             print_direction d ppfix () ;
-            List.iter (aux (ppfix ^ "| ")) d.contents
-    in aux "" dir_content
+            let extra = if level < 1 then "|-" else "| " in
+            List.iter (aux (level + 1) (extra ^ ppfix)) d.contents
+    in aux 0 "" dir_content
 ;;
 
 let ls_cmd dir_content =
