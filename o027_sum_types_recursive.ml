@@ -94,36 +94,41 @@ let link1 = make_link "secret" true "../keys" ;;
 let link2 = make_link "acopy_of_tests.log" false "/tests/01/02/logs" ;;
 let contents1 = [ File file1 ; Link link2 ] ;;
 let dir1 = make_directory "docs" contents1 ;;
-let contents2 = [ File file2 ; Link link1 ; Directory dir1 ] ;;
+let contents2 = [ Directory dir1 ; File file2 ; Link link1 ] ;;
 let dir2 = make_directory "work" contents2 ;;
 
 let print_ls_header () =
     Printf.printf "%4s %19s %19s %s\n" "Type" "Last Accessed Time" "Size" "Name"
 ;;
 
-let print_file (f : file) () =
+let print_file (f : file) ppfix () =
+    let name = ppfix ^ f.fname in
     Printf.printf "%4s %19s %19s %s\n" "F"
         (Int64.to_string f.lat)
         (Int64.to_string f.size)
-        f.fname
+        name
 ;;
 
-let print_link (l : link) () =
+let print_link (l : link) ppfix () =
     let name = l.lname ^ " -> " ^ l.target in
     let name = if l.soft then ("*" ^ name) else name in
+    let name = ppfix ^ name in
     Printf.printf "%4s %19s %19s %s\n" "L" "" "" name
 ;;
 
-let print_direction (d : directory) () =
-    Printf.printf "%4s %19s %19d %s\n" "D" "" (List.length d.contents) d.dname
+let print_direction (d : directory) ppfix () =
+    let name = ppfix ^ d.dname in
+    Printf.printf "%4s %19s %19d %s\n" "D" "" (List.length d.contents) name
 ;;
 
-let rec dir_content_printer = function
-    | File f -> print_file f ()
-    | Link l -> print_link l ()
-    | Directory d ->
-        print_direction d () ;
-        List.iter dir_content_printer d.contents
+let rec dir_content_printer dir_content =
+    let rec aux ppfix = function
+        | File f -> print_file f ppfix ()
+        | Link l -> print_link l ppfix ()
+        | Directory d ->
+            print_direction d ppfix () ;
+            List.iter (aux (ppfix ^ "| ")) d.contents
+    in aux "" dir_content
 ;;
 
 let ls_cmd dir_content =
