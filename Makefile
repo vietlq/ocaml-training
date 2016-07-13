@@ -99,6 +99,9 @@ default:
 027: o027_sum_types_recursive.ml
 	$(OBC) o027_sum_types_recursive.ml -o 027_sum_types_recursive
 
+028: o028_polymorphic_types.ml
+	$(OBC) o028_polymorphic_types.ml -o 028_polymorphic_types
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
 
