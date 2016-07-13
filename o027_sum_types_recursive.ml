@@ -127,7 +127,7 @@ let rec dir_content_printer dir_content =
         | Link l -> print_link l ppfix ()
         | Directory d ->
             print_direction d ppfix () ;
-            let extra = if level < 1 then "|-" else "| " in
+            let extra = if level < 1 then "|- " else "| " in
             List.iter (aux (level + 1) (extra ^ ppfix)) d.contents
     in aux 0 "" dir_content
 ;;
