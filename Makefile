@@ -108,6 +108,9 @@ default:
 031: o031_redefine_lists.ml
 	$(OBC) o031_redefine_lists.ml -o 031_redefine_lists
 
+032: o032_intermediate_ex1.ml
+	$(OBC) o032_intermediate_ex1.ml -o 032_intermediate_ex1
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
 
