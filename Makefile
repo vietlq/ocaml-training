@@ -105,6 +105,9 @@ default:
 030: o030_references.ml
 	$(OBC) o030_references.ml -o 030_references
 
+031: o031_redefine_lists.ml
+	$(OBC) o031_redefine_lists.ml -o 031_redefine_lists
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
 
