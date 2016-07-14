@@ -122,6 +122,9 @@ default:
 	$(OBCI) o034_intermediate_ex2.mli
 	$(OBC) o034_intermediate_ex2.ml -o 034_intermediate_ex2
 
+035: o035_intermediate_ex3.ml
+	$(OBC) o035_intermediate_ex3.ml -o 035_intermediate_ex3
+
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
 
