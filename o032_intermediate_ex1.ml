@@ -16,6 +16,10 @@ let print_number = function
     | Int n -> Printf.printf "Int %d" n
     | Float f -> Printf.printf "Float %g" f
 
+let sprint_number = function
+    | Int n -> Printf.sprintf "Int %d" n
+    | Float f -> Printf.sprintf "Float %g" f
+
 (* Manually define for each operator + - * / *)
 let (+) number1 number2 =
     match number1, number2 with
@@ -34,20 +38,16 @@ let (-) number1 number2 =
 ;;
 
 (* Test new + *)
-print_number (Int 1) ;;
-print_string " + " ;;
-print_number (Float 0.333) ;;
-print_string " = " ;;
-print_number (Int 1 + Float 0.333) ;;
-print_endline "" ;;
+Printf.printf "%s + %s = %s\n"
+    (sprint_number (Int 1))
+    (sprint_number (Float 0.333))
+    (sprint_number (Int 1 + Float 0.333)) ;;
 
 (* Test new - *)
-print_number (Int 1) ;;
-print_string " - " ;;
-print_number (Float 0.333) ;;
-print_string " = " ;;
-print_number (Int 1 - Float 0.333) ;;
-print_endline "" ;;
+Printf.printf "%s - %s = %s\n"
+    (sprint_number (Int 1))
+    (sprint_number (Float 0.333))
+    (sprint_number (Int 1 - Float 0.333)) ;;
 
 (* Use generic type and generic function *)
 type 'a operator = {
