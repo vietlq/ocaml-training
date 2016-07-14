@@ -21,33 +21,32 @@ let sprint_number = function
     | Float f -> Printf.sprintf "Float %g" f
 
 (* Manually define for each operator + - * / *)
-let (+) number1 number2 =
-    match number1, number2 with
-    | Int n1, Float n2 -> Float ((float_of_int n1) +. n2)
-    | Float n1, Int n2 -> Float (n1 +. (float_of_int n2))
-    | Int n1, Int n2 -> Int (n1 + n2)
-    | Float n1, Float n2 -> Float (n1 +. n2)
+let manual_definition_tests = 
+    let (+) number1 number2 =
+        match number1, number2 with
+        | Int n1, Float n2 -> Float ((float_of_int n1) +. n2)
+        | Float n1, Int n2 -> Float (n1 +. (float_of_int n2))
+        | Int n1, Int n2 -> Int (n1 + n2)
+        | Float n1, Float n2 -> Float (n1 +. n2)
+    in
+    let (-) number1 number2 =
+        match number1, number2 with
+        | Int n1, Float n2 -> Float ((float_of_int n1) -. n2)
+        | Float n1, Int n2 -> Float (n1 -. (float_of_int n2))
+        | Int n1, Int n2 -> Int (n1 - n2)
+        | Float n1, Float n2 -> Float (n1 -. n2)
+    in
+    (* Test new + *)
+    Printf.printf "%s + %s = %s\n"
+        (sprint_number (Int 1))
+        (sprint_number (Float 0.333))
+        (sprint_number (Int 1 + Float 0.333)) ;
+    (* Test new - *)
+    Printf.printf "%s - %s = %s\n"
+        (sprint_number (Int 1))
+        (sprint_number (Float 0.333))
+        (sprint_number (Int 1 - Float 0.333))
 ;;
-
-let (-) number1 number2 =
-    match number1, number2 with
-    | Int n1, Float n2 -> Float ((float_of_int n1) -. n2)
-    | Float n1, Int n2 -> Float (n1 -. (float_of_int n2))
-    | Int n1, Int n2 -> Int (n1 - n2)
-    | Float n1, Float n2 -> Float (n1 -. n2)
-;;
-
-(* Test new + *)
-Printf.printf "%s + %s = %s\n"
-    (sprint_number (Int 1))
-    (sprint_number (Float 0.333))
-    (sprint_number (Int 1 + Float 0.333)) ;;
-
-(* Test new - *)
-Printf.printf "%s - %s = %s\n"
-    (sprint_number (Int 1))
-    (sprint_number (Float 0.333))
-    (sprint_number (Int 1 - Float 0.333)) ;;
 
 (* Use generic type and generic function *)
 type 'a operator = {
@@ -62,4 +61,30 @@ let operation (op : 'a operator) number1 number2 =
     | Int n1, Int n2 -> Int (op.intopt n1 n2)
     | Float n1, Float n2 -> Float (op.floatopt n1 n2)
 
+let (+) = operation { intopt = (+) ; floatopt = (+.) }
+let (-) = operation { intopt = (-) ; floatopt = (-.) }
+let ( * ) = operation { intopt = ( * ) ; floatopt = ( *. ) }
+let (/) = operation { intopt = (/) ; floatopt = (/.) }
+;;
+
+(* Test new + *)
+Printf.printf "%s + %s = %s\n"
+    (sprint_number (Int 1))
+    (sprint_number (Float 0.333))
+    (sprint_number (Int 1 + Float 0.333)) ;
+(* Test new - *)
+Printf.printf "%s - %s = %s\n"
+    (sprint_number (Int 1))
+    (sprint_number (Float 0.333))
+    (sprint_number (Int 1 - Float 0.333)) ;
+(* Test new * *)
+Printf.printf "%s * %s = %s\n"
+    (sprint_number (Int 1))
+    (sprint_number (Float 0.333))
+    (sprint_number (Int 1 * Float 0.333)) ;
+(* Test new / *)
+Printf.printf "%s / %s = %s\n"
+    (sprint_number (Int 1))
+    (sprint_number (Float 0.333))
+    (sprint_number (Int 1 / Float 0.333)) ;;
 
