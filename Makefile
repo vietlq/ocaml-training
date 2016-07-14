@@ -115,7 +115,12 @@ default:
 	cd o032_intermediate_ex1 && $(OBCI) number.mli && $(OBCA) number.ml -o number
 
 033: o033_intermediate_ex2.ml
+	$(OBCI) o033_intermediate_ex2.mli
 	$(OBC) o033_intermediate_ex2.ml -o 033_intermediate_ex2
+
+034: o034_intermediate_ex2.ml
+	$(OBCI) o034_intermediate_ex2.mli
+	$(OBC) o034_intermediate_ex2.ml -o 034_intermediate_ex2
 
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
