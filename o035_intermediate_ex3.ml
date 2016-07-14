@@ -3,7 +3,7 @@ type 'a bin = Bnil | Bnode of 'a bin * 'a * 'a bin
 (* Infix, non-tail recursive *)
 let rec to_list = function
     | Bnil -> []
-    | Bnode (left, a, right) -> (to_list left) @ ( a :: to_list right)
+    | Bnode (left, a, right) -> to_list left @  a :: to_list right
 
 (* Infix, tail-recursive *)
 let to_list_tail bin =
@@ -16,17 +16,17 @@ let to_list_tail bin =
 (* Generic prefix traversal *)
 let rec prefix f acc = function
     | Bnil -> acc
-    | Bnode (left, a, right) -> (prefix f (prefix f (f acc a) left) right)
+    | Bnode (left, a, right) -> prefix f (prefix f (f acc a) left) right
 
 (* Generic infix traversal *)
 let rec infix f acc = function
     | Bnil -> acc
-    | Bnode (left, a, right) -> (infix f (f (infix f acc left) a) right)
+    | Bnode (left, a, right) -> infix f (f (infix f acc left) a) right
 
 (* Generic postfix traversal *)
 let rec postfix f acc = function
     | Bnil -> acc
-    | Bnode (left, a, right) -> (f (postfix f (postfix f acc left) right) a)
+    | Bnode (left, a, right) -> f (postfix f (postfix f acc left) right) a
 
 (* Traverse infix and apply function f *)
 let rec iter f = function
