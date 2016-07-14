@@ -28,3 +28,8 @@ let rec postfix f acc = function
     | Bnil -> acc
     | Bnode (left, a, right) -> (f (postfix f (postfix f acc left) right) a)
 
+(* Traverse infix and apply function f *)
+let rec iter f = function
+    | Bnil -> ()
+    | Bnode (left, a, right) -> iter f left ; f a ; iter f right
+
