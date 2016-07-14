@@ -1,5 +1,7 @@
 # OCaml build command
 OBC = ocamlfind ocamlopt -linkpkg
+OBCI = ocamlfind ocamlopt -c
+OBCA = ocamlfind ocamlopt -a
 PKGC = -package
 
 ML_FILES = o001_grep_lines.ml \
@@ -110,6 +112,10 @@ default:
 
 032: o032_intermediate_ex1.ml
 	$(OBC) o032_intermediate_ex1.ml -o 032_intermediate_ex1
+	cd o032_intermediate_ex1 && $(OBCI) number.mli && $(OBCA) number.ml -o number
+
+033: o033_intermediate_ex2.ml
+	$(OBC) o033_intermediate_ex2.ml -o 033_intermediate_ex2
 
 clean:
 	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
