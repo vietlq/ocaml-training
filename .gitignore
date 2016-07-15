@@ -2,4 +2,4 @@
 *.cmx
 *.cma
 *.cmi
-_build/*
+_build

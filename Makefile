@@ -116,3 +116,6 @@ PKG_001 = re.posix
 035:
 	make -C o035_intermediate_ex3
 
+036:
+	make -C 036_advanced_io_vfs
+
