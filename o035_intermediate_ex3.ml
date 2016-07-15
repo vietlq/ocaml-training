@@ -33,6 +33,7 @@ let rec iter f = function
     | Bnil -> ()
     | Bnode (left, a, right) -> iter f left ; f a ; iter f right
 
+(* Verify if a binary tree is a binary search tree *)
 exception Not_well_formed
 
 let valid_search_tree =
@@ -60,9 +61,9 @@ let rec print_int_node = function
     | Bnode (left, a, right) -> (
         print_string "[ " ;
         print_int_node left ;
-        Printf.printf "<%d>" a ;
+        Printf.printf " <%d> " a ;
         print_int_node right ;
-        print_string " ]\n"
+        print_string " ]"
     )
 ;;
 
@@ -96,5 +97,32 @@ postfix aux_print () tree1 ;
 print_split () ;
 Printf.printf "valid_search_tree tree1 = %b\n" (valid_search_tree tree1) ;
 Printf.printf "valid_search_tree tree2 = %b\n" (valid_search_tree tree2) ;
-print_split () ;
+print_split () ;;
+
+(* Write insert function to create a binary search tree *)
+let rec insert value = function
+    | Bnil -> make_leaf value
+    | Bnode (left, a, right) as t ->
+        if value < a then
+            Bnode (insert value left, a, right)
+        else
+            if value > a then
+                Bnode (left, a, insert value right)
+            else
+                t
+;;
+
+let tree3 = insert 4 Bnil ;;
+print_int_node tree3 ; print_endline "" ;;
+let tree3 = insert 3 tree3 ;;
+print_int_node tree3 ; print_endline "" ;;
+let tree3 = insert 2 tree3 ;;
+print_int_node tree3 ; print_endline "" ;;
+let tree3 = insert 5 tree3 ;;
+print_int_node tree3 ; print_endline "" ;;
+let tree3 = insert 6 tree3 ;;
+print_int_node tree3 ; print_endline "" ;;
+let tree3 = insert 1 tree3 ;;
+print_int_node tree3 ; print_endline "" ;;
+
 
