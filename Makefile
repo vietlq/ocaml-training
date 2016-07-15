@@ -1,8 +1,4 @@
-# OCaml build command
-OBC = ocamlfind ocamlopt -linkpkg
-OBCI = ocamlfind ocamlopt -c
-OBCA = ocamlfind ocamlopt -a
-PKGC = -package
+include defs.mk
 
 ML_FILES = o001_grep_lines.ml \
 o002_hello_user.ml \
@@ -14,11 +10,6 @@ o007_array_matrix.ml \
 o008_mat_check_zeros.ml \
 
 PKG_001 = re.posix
-
-.PHONY: default
-
-default:
-	$(info Pick right build command)
 
 001: o001_grep_lines.ml
 	$(OBC) -package re.posix o001_grep_lines.ml -o 001_grep_lines
@@ -122,10 +113,6 @@ default:
 	$(OBCI) o034_intermediate_ex2.mli
 	$(OBC) o034_intermediate_ex2.ml -o 034_intermediate_ex2
 
-035: o035_intermediate_ex3.ml
-	$(OBCI) o035_intermediate_ex3.mli
-	$(OBC) o035_intermediate_ex3.ml -o 035_intermediate_ex3
-
-clean:
-	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa _build
+035:
+	make -C o035_intermediate_ex3
 
