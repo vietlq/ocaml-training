@@ -102,14 +102,9 @@ print_split () ;;
 (* Write insert function to create a binary search tree *)
 let rec insert value = function
     | Bnil -> make_leaf value
-    | Bnode (left, a, right) as t ->
-        if value < a then
-            Bnode (insert value left, a, right)
-        else
-            if value > a then
-                Bnode (left, a, insert value right)
-            else
-                t
+    | Bnode (left, a, right) when value < a -> Bnode (insert value left, a, right)
+    | Bnode (left, a, right) when value > a -> Bnode (left, a, insert value right)
+    | n -> n
 ;;
 
 let tree3 = insert 4 Bnil ;;
