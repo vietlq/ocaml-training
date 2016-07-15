@@ -8,8 +8,20 @@ let rec print_int_list l =
 
 let print_split () = print_endline "\n----------------"
 
-let tree3 = (insert 1 (insert 6 (insert 5 (insert 2 (insert 3 (insert 4 empty)))))) ;;
+let tree1 = (insert 1 (insert 6 (insert 5 (insert 2 (insert 3 (insert 4 empty)))))) ;;
 
-print_int_list (to_list tree3) ;;
+let list1 = to_list tree1 ;;
+assert (list1 = [1; 2; 3; 4; 5; 6]) ;;
+print_int_list list1 ;;
 print_split () ;;
+
+(* Take a list, and return resulting list in sorted mode *)
+let list_sort_unique l =
+    to_list @@ List.fold_left (fun a b -> insert b a) empty l ;;
+
+let list2 = [ 2; -5; 2; -5; 7; -10; 0; 5; 32 ] ;;
+let list3 = list_sort_unique list2 ;;
+assert (list3 = [-10; -5; 0; 2; 5; 7; 32]) ;;
+print_int_list list2 ;;
+print_int_list list3 ;;
 
