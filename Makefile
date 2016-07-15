@@ -123,6 +123,7 @@ default:
 	$(OBC) o034_intermediate_ex2.ml -o 034_intermediate_ex2
 
 035: o035_intermediate_ex3.ml
+	$(OBCI) o035_intermediate_ex3.mli
 	$(OBC) o035_intermediate_ex3.ml -o 035_intermediate_ex3
 
 clean:
