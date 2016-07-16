@@ -18,7 +18,7 @@ profile:
 debug:
 	$(OCB) -tag debug vfs_tests.byte
 
-test:
+test: native
 	./vfs_tests.native
 
 .PHONY: all clean native byte profile debug test
