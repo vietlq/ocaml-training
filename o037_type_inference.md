@@ -33,5 +33,5 @@
 * Unifying a type variable with a primitive type destroys the variable
 * Trying to update an already destroyed variable leads to a type clash
 * Updating one occurence will update all (so a variable can only be used with one type)
-* When the body of a `let` is completely typed, potential type variables are generalized, the result is polymorphic
+* When the body of a `let` is completely typed, potential type variables are *generalized*, the result is *polymorphic*
 
