@@ -1,5 +1,8 @@
+*.a
 *.o
 *.cmx
+*.cmxa
 *.cma
 *.cmi
+*.native
 _build
