@@ -1,10 +1,25 @@
-include ../defs.mk
+OCB_FLAGS = -use-ocamlfind
+OCB 	  = ocamlbuild $(OCB_FLAGS)
 
-.PHONY: bintree
+all: native byte
 
-.DEFAULT: bintree
+clean:
+	$(OCB) -clean
 
-bintree: bintree.mli bintree.ml bintree_tests.ml
-	$(OBCI) -opaque bintree.mli
-	$(OBCA) bintree.ml -o bintree.cmxa
-	$(OBC) bintree.cmxa bintree_tests.ml -o bintree_tests
+native:
+	$(OCB) bintree_tests.native
+
+byte:
+	$(OCB) bintree_tests.byte
+
+profile:
+	$(OCB) -tag profile bintree_tests.native
+
+debug:
+	$(OCB) -tag debug bintree_tests.byte
+
+test: native
+	./bintree_tests.native
+
+.PHONY: all clean native byte profile debug test
+
