@@ -35,3 +35,34 @@
 * Updating one occurence will update all (so a variable can only be used with one type)
 * When the body of a `let` is completely typed, potential type variables are *generalized*, the result is *polymorphic*
 
+### Troubleshoooting
+
+* Why some annotations seem ignored (think about aliases)
+* Why some functions end up more polymorphic than expected
+* Why some error message are little cryptic
+
+### Limitations
+
+#### Disambiguation of constructs and fields:
+
+* Necessary when several records have the same name
+* The inference takes the last definition by default
+* Solved with annotations
+
+#### Weak type variables
+
+* Some values have type variables that cannot be generalized
+* Example: `let storage = ref []`
+ * Should be of type 'a list ref
+ * Unsafe since one could insert heterogenous values
+* The toplevel will display a weak variable: `'_a list ref`
+* This kind of variable is updated upon its first monomorphic usage
+
+#### Value restriction
+
+* Once upon a time, only constraints and functions were generalized
+* In OCaml this is a lot relaxed, yet correct
+* But the heuristics is not perefect
+* OCaml may not accept to generalize truly polymorphic values
+* The solution is often to turn these variables into functions
+
