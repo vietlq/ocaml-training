@@ -11,12 +11,12 @@
 
 * The inference starts by giving generic types to everything
 * If uses the types of called functions and referenced values
-** To check that the local use is compatible
-** Conversely, to narrow the types of local expressions
+ * To check that the local use is compatible
+ * Conversely, to narrow the types of local expressions
 * In a single pass called unification:
-** Two generic types are unified as one
-** Two different primitive types are not unified and lead to an error
-** A generic type and a primitive type unify to the primitive
+ * Two generic types are unified as one
+ * Two different primitive types are not unified and lead to an error
+ * A generic type and a primitive type unify to the primitive
 
 ### The inference algo is a recursive descent on the program
 
@@ -30,7 +30,7 @@
 ### Destructive unification is used
 
 * Types variables are references
-* Unifying a type variable with a primitive type destroys the variable
+* Unifying a *type variable* with a *primitive type* results in destruction of the variable
 * Trying to update an already destroyed variable leads to a type clash
 * Updating one occurence will update all (so a variable can only be used with one type)
 * When the body of a `let` is completely typed, potential type variables are *generalized*, the result is *polymorphic*
