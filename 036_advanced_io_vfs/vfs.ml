@@ -33,10 +33,17 @@ let read_file path =
     match file_size path with
     | 0 -> ""
     | size when size < 0 ->
-        Printf.eprintf "The file <%s> has negative size = %d" path size ;
+        Printf.eprintf "The file <%s> has negative size = %d\n" path size ;
         ""
     | size -> (
-        ""
+        let size = min size 256 in
+        let bytes = Bytes.create size in
+        let in_channel = open_in path in
+        match really_input in_channel bytes 0 size with
+        | () -> Bytes.to_string bytes
+        | exception Invalid_argument _ ->
+            Printf.eprintf "Could not read %d bytes from the file <%s>\n" size path ;
+            ""
     )
 
 let read_dir dir_path =
@@ -49,7 +56,8 @@ let read_dir dir_path =
                 let path = prefix ^ "/" ^ inode in
                 match Sys.is_directory path with
                 | false ->
-                    Array.append contents [| File (inode, "") |]
+                    let text = read_file path in
+                    Array.append contents [| File (inode, text) |]
                 | true -> (
                     Array.append contents
                         [| Dir (inode, add_items path [||] (Sys.readdir path)) |]

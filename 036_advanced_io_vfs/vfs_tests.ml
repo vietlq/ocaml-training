@@ -23,5 +23,5 @@ print_vfs vfs1 ;;
 print_vfs_chars vfs1 ;;
 
 let vfs2 = read_dir "." ;;
-print_vfs vfs2 ;;
+print_vfs_chars vfs2 ;;
 
