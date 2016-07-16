@@ -22,9 +22,9 @@
 
 * Allocates fresh variables for all its subexpressions
 * Applies predefined typing rules for relating the subexpressions:
-** The condition of an `if` is unified with bool
-** The branches of a `match` are unified together
-** The function parameters and arguments are unified pairwise, etc. by calling the unification recursively
+ * The condition of an `if` is unified with bool
+ * The branches of a `match` are unified together
+ * The function parameters and arguments are unified pairwise, etc. by calling the unification recursively
 * Finally unifies the expression result `type` with the expected one
 
 ### Destructive unification is used
