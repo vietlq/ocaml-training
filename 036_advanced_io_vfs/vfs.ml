@@ -40,7 +40,14 @@ let read_file path =
         let bytes = Bytes.create size in
         let in_channel = open_in path in
         match really_input in_channel bytes 0 size with
-        | () -> Bytes.to_string bytes
+        | () ->
+            let map_char = function
+                | '\n' | '\r' -> ' '
+                | '\032'..'\126' as c -> c
+                | _ -> '*'
+            in
+            let newbytes = Bytes.map map_char bytes in
+            Bytes.to_string newbytes
         | exception Invalid_argument _ ->
             Printf.eprintf "Could not read %d bytes from the file <%s>\n" size path ;
             ""
