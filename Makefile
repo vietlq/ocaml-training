@@ -101,13 +101,11 @@ PKG_001 = re.posix
 031: o031_redefine_lists.ml
 	$(OBC) o031_redefine_lists.ml -o 031_redefine_lists
 
-032: o032_intermediate_ex1.ml
-	$(OBC) o032_intermediate_ex1.ml -o 032_intermediate_ex1
-	cd o032_intermediate_ex1 && $(OBCI) number.mli && $(OBCA) number.ml -o number
+032:
+	make -C 032_number
 
-033: o033_intermediate_ex2.ml
-	$(OBCI) o033_intermediate_ex2.mli
-	$(OBC) o033_intermediate_ex2.ml -o 033_intermediate_ex2
+033:
+	make -C 033_nlist_record
 
 034:
 	make -C 034_nlist
