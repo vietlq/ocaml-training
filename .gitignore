@@ -5,4 +5,5 @@
 *.cma
 *.cmi
 *.native
+*.byte
 _build
