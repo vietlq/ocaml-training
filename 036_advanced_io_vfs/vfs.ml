@@ -1,4 +1,4 @@
-type 'a vfs = Nil | File of string * 'a | Dir of string * 'a vfs array
+type 'a vfs = Nil | File of string * 'a | Dir of string * 'a vfs list
 
 let print_vfs vfs =
     let rec aux prefix = function
@@ -6,7 +6,7 @@ let print_vfs vfs =
         | File (name, _) -> print_endline (prefix ^ "/" ^ name)
         | Dir (name, contents) ->
             print_endline (prefix ^ "/" ^ name ^ " = [") ;
-            Array.iter (aux ("  " ^ prefix)) contents ;
+            List.iter (aux ("  " ^ prefix)) contents ;
             print_endline (prefix ^ "]")
     in aux "" vfs
 
@@ -20,7 +20,7 @@ let print_vfs_chars vfs =
             Format.printf "\"@]@."
         | Dir (name, contents) ->
             print_endline (prefix ^ "/" ^ name ^ " = [") ;
-            Array.iter (aux ("  " ^ prefix)) contents ;
+            List.iter (aux ("  " ^ prefix)) contents ;
             print_endline (prefix ^ "]")
     in aux "" vfs
 
@@ -64,11 +64,10 @@ let read_dir dir_path =
                 match Sys.is_directory path with
                 | false ->
                     let text = read_file path in
-                    Array.append contents [| File (inode, text) |]
+                    File (inode, text) :: contents
                 | true -> (
-                    Array.append contents
-                        [| Dir (inode, add_items path [||] (Sys.readdir path)) |]
+                    Dir (inode, add_items path [] (Sys.readdir path)) :: contents
                 )
             in Array.fold_left process contents items
-        in Dir (dir_path, add_items dir_path [||] items)
+        in Dir (dir_path, add_items dir_path [] items)
 
