@@ -1,5 +1,9 @@
 type number = Int of int | Float of float
 
+let number_of_int n = Int n
+
+let number_of_float f = Float f
+
 let number_is_zero = function
     | Int n -> n = 0
     | Float f -> f = 0.
@@ -27,3 +31,11 @@ let ( + ) = op ( + ) ( +. )
 let ( - ) = op ( - ) ( -. )
 let ( * ) = op ( * ) ( *. )
 let ( / ) = op ( / ) ( /. )
+
+let print_number = function
+    | Int n -> Printf.printf "Int %d" n
+    | Float f -> Printf.printf "Float %g" f
+
+let sprint_number = function
+    | Int n -> Printf.sprintf "Int %d" n
+    | Float f -> Printf.sprintf "Float %g" f
