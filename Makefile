@@ -111,7 +111,7 @@ PKG_001 = re.posix
 	make -C 034_nlist
 
 035:
-	make -C o035_intermediate_ex3
+	make -C 035_bintree
 
 036:
 	make -C 036_advanced_io_vfs
