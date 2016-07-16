@@ -47,7 +47,9 @@ let read_file path =
                 | _ -> '*'
             in
             let newbytes = Bytes.map map_char bytes in
-            Bytes.to_string newbytes
+            let res = Bytes.to_string newbytes in
+            close_in in_channel ; (* Stay clean *)
+            res
         | exception Invalid_argument _ ->
             Printf.eprintf "Could not read %d bytes from the file <%s>\n" size path ;
             ""
