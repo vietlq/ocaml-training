@@ -6,17 +6,20 @@ all: native byte
 clean:
 	$(OCB) -clean
 
-native:
+native: sanity
 	$(OCB) vfs_tests.native
 
-byte:
+byte: sanity
 	$(OCB) vfs_tests.byte
 
-profile:
+profile: sanity
 	$(OCB) -tag profile vfs_tests.native
 
-debug:
+debug: sanity
 	$(OCB) -tag debug vfs_tests.byte
+
+sanity:
+	ocamlfind query unix
 
 test: native
 	./vfs_tests.native

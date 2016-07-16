@@ -24,6 +24,21 @@ let print_vfs_chars vfs =
             print_endline (prefix ^ "]")
     in aux "" vfs
 
+let file_size path =
+    let open Unix in
+    let { st_kind ; st_size } = Unix.stat path in
+    if st_kind = Unix.S_REG then st_size else 0
+
+let read_file path =
+    match file_size path with
+    | 0 -> ""
+    | size when size < 0 ->
+        Printf.eprintf "The file <%s> has negative size = %d" path size ;
+        ""
+    | size -> (
+        ""
+    )
+
 let read_dir dir_path =
     match Sys.is_directory dir_path with
     | false -> failwith "Invalid directory path"
