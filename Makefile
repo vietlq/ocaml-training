@@ -109,9 +109,8 @@ PKG_001 = re.posix
 	$(OBCI) o033_intermediate_ex2.mli
 	$(OBC) o033_intermediate_ex2.ml -o 033_intermediate_ex2
 
-034: o034_intermediate_ex2.ml
-	$(OBCI) o034_intermediate_ex2.mli
-	$(OBC) o034_intermediate_ex2.ml -o 034_intermediate_ex2
+034:
+	make -C 034_nlist
 
 035:
 	make -C o035_intermediate_ex3

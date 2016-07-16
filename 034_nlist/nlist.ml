@@ -1,5 +1,7 @@
 type 'a nlist = Nnil | Ncons of int * 'a * 'a nlist
 
+let empty = Nnil
+
 let nlist_length = function
     | Nnil -> 0
     | Ncons (n, _, _) -> n
