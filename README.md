@@ -61,7 +61,32 @@ ocamlfind ocamlopt bintree.cmxa bintree_tests.ml -o bintree_tests.native
 
 ### Simple makefile (GNUMake)
 
+Read carefully the manual steps above and then you can write your own makfile.
+
+Some examples of a `Makefile`:
+
+```Makefile
+# OCaml build command
+OBC       = ocamlfind ocamlopt -linkpkg
+OBCI      = ocamlfind ocamlopt -c
+OBCA      = ocamlfind ocamlopt -a
+
+bintree: bintree.ml bintree.mli bintree_tests.ml
+    $(OBCI) -opaque bintree.mli
+    $(OBCA) bintree.ml -o bintree.cmxa
+    $(OBC) bintree.cmxa bintree_tests.ml -o bintree_tests
+
+001: o001_grep_lines.ml
+    $(OBC) -package re.posix o001_grep_lines.ml -o 001_grep_lines.native
+
+002: o002_hello_user.ml
+    $(OBC) o002_hello_user.ml -o 002_hello_user.native
+```
+
 ### Using ocamlbuild
 
 ### Using OMake
 
+WIP, read more at:
+
+* https://ocaml.org/learn/tutorials/compiling_with_omake.html
