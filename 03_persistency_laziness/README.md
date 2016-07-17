@@ -25,3 +25,22 @@ let l3 = l2 @ [5] ;;
 
 `l2` shares 1, 2, 3 with `l1` and `l3`. Also 4 is shared by `l2` & `l3`.
 
+Mutation-free operations
+
+```ocaml
+val cons: 'a -> 'a list -> 'a list
+val append: 'a list -> 'a list -> 'a list
+val map: ('a -> 'b) -> 'a list -> 'b list
+val fold_right: ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b
+```
+
+```ocaml
+type 'a bst = Empty | Node of 'a bst * 'a * 'a bst
+val mem: 'a -> 'a bst -> bool
+val insert: 'a -> 'a bst -> 'a bst
+val union: 'a bst -> 'a bst -> 'a bst
+val map: ('a -> 'b) -> 'a bst -> 'b bst
+val fold: ('a -> 'b -> 'a) -> 'b bst -> 'a -> 'a
+```
+
+
