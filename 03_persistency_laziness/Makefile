@@ -15,3 +15,5 @@ include ../defs.mk
 042:
 	make -C 042_intro_to_streams
 
+043:
+	$(OBC) o043_persistent_fifo.ml -o 043_persistent_fifo.native
