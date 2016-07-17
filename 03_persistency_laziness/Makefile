@@ -6,3 +6,6 @@ include ../defs.mk
 039: o039_sum_tree_nodes.ml
 	$(OBC) o039_sum_tree_nodes.ml -o 039_sum_tree_nodes.native
 
+040: o040_red_black_tree.ml
+	$(OBC) o040_red_black_tree.ml -o 040_red_black_tree.native
+
