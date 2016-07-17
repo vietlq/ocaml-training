@@ -39,11 +39,3 @@ let filter f xs =
         (fun acc x -> if f x then x :: acc else acc)
         [] xs
 
-(*
- * Tree
- * Given the following definition of a tree where nodes are labeled with integer,
- * write a function that sum all the labels of a given tree.
-*)
-type tree = Empty | Node of tree * int * tree
-
-
