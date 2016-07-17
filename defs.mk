@@ -10,4 +10,6 @@ default:
 	$(info Pick right build command)
 
 clean:
-	rm -rf *.o *.cmi *.cmx *.cma *.a *.lib *.cmxa *.bytes *.native _build
+	rm -rf *.o *.a *.lib
+	rm -rf *.cmi *.cmx *.cma *.cmxa
+	rm -rf *.bytes *.native _build
