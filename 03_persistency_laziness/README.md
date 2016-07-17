@@ -8,7 +8,7 @@
 *Continuation* is a functional parameter of a function, that will be applied to the returned value (instead of simply returning the value)
 
 * Concrete continuation: Values added to a list
-* Functional continuation: Values cause a new function to be added to a list or wrapped in another function
+* Functional continuation: Values cause new functions to be added to a list or wrapped in another function
 
 ## Mutations
 
