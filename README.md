@@ -81,9 +81,79 @@ bintree: bintree.ml bintree.mli bintree_tests.ml
 
 002: o002_hello_user.ml
     $(OBC) o002_hello_user.ml -o 002_hello_user.native
+
+clean:
+    rm -rf *.o *.a *.lib
+    rm -rf *.cmi *.cmx *.cma *.cmxa
+    rm -rf *.bytes *.native
 ```
 
 ### Using ocamlbuild
+
+Note that `ocamlbuild` still finds `ocamlfind` useful and it can be used
+
+Sample makefile that uses `ocamlbuild`:
+
+```Makefile
+# Commands for the ocamlbuild interface
+OCB_FLAGS = -use-ocamlfind
+OCB       = ocamlbuild $(OCB_FLAGS)
+
+all: native byte
+
+clean:
+    $(OCB) -clean
+    rm -rf *.o *.a *.lib
+    rm -rf *.cmi *.cmx *.cma *.cmxa
+    rm -rf *.bytes *.native _build
+
+native: sanity
+    $(OCB) vfs_tests.native
+
+byte: sanity
+    $(OCB) vfs_tests.byte
+
+profile: sanity
+    $(OCB) -tag profile -package unix vfs_tests.native
+
+debug: sanity
+    $(OCB) -tag debug -package unix vfs_tests.byte
+
+sanity:
+    ocamlfind query unix
+
+test: native
+    ./vfs_tests.native
+
+.PHONY: all clean native byte profile debug test default
+```
+
+Note that currently the commands `profile` & `debug` use `-package unix`. You can keep them brief by moving required packages to the file `_tags` in the same folder with the `Makefile`.
+
+The content of the file `_tags`:
+
+```
+true: package(unix)
+```
+
+Now you can update `Makefile`:
+
+```Makefile
+profile: sanity
+    $(OCB) -tag profile vfs_tests.native
+
+debug: sanity
+    $(OCB) -tag debug vfs_tests.byte
+```
+
+For more info, read:
+
+* https://github.com/ocaml/ocamlbuild/blob/master/manual/manual.adoc
+* https://github.com/ocaml/ocamlbuild/blob/master/manual/examples/01-simple
+* https://github.com/ocaml/ocamlbuild/blob/master/manual/examples/02-subdirs
+* https://github.com/ocaml/ocamlbuild/blob/master/manual/examples/03-packages
+* https://github.com/ocaml/ocamlbuild/blob/master/manual/examples/04-library
+* https://github.com/ocaml/ocamlbuild/blob/master/manual/examples/05-lex-yacc
 
 ### Using OMake
 
