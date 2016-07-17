@@ -1,4 +1,4 @@
-include defs.mk
+include ../defs.mk
 
 022: o022_tuples_sample.ml
 	$(OBC) o022_tuples_sample.ml -o 022_tuples_sample
