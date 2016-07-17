@@ -1,4 +1,4 @@
-## Accumulators, Continuations, Mutations
+## Accumulators & Continuations
 
 *Accumulator* is a common pattern to
 
@@ -6,6 +6,9 @@
 * Define generic iterator like List.fold_left
 
 *Continuation* is a functional parameter of a function, that will be applied to the returned value (instead of simply returning the value)
+
+
+## Mutations
 
 *Mutation* is like a master-chef knife:
 
@@ -61,4 +64,15 @@ val fold: ('a -> 'b -> 'a) -> 'b bst -> 'a -> 'a
 
 * Keep the core of an application to a pure functional setting, or at least, use persistent data structures
 * Keep functional interface while using mutation in the implementation
+
+## Laziness
+
+**OCaml** Strict evaluation: Arguments are evaluated *before* a function call
+**Haskell** Laziness: Arguments are evaluated when *first-used* by the function
+
+#### OCaml allows explicit laziness
+
+* A predefined type: `'a lazy_t`
+* A syntactic construction: `lazy expr`, where `lazy` is a keyword
+* A function for explicit evaluation: `Lazy.force: 'a lazy_t -> 'a`
 
