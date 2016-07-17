@@ -48,6 +48,12 @@ val fold: ('a -> 'b -> 'a) -> 'b bst -> 'a -> 'a
 * Well-balanced binary search tree
 * Nodes are colored either in read or black
 
-* **Invariant 1**: No red as a red child
+* **Invariant 1**: No red node has a red child
 * **Invariant 2**: Every path from the root to and empty node/leaf contains the same number of black nodes
+
+How to perform insertion
+
+* Descent into the tree and insert the new node as a read leaf, respecting the binary search tree property
+* On the path back to the tree root, rebalance all the sequence of two red nodes
+* Tag the root in black
 
