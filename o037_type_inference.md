@@ -66,3 +66,28 @@
 * OCaml may not accept to generalize truly polymorphic values
 * The solution is often to turn these variables into functions
 
+#### Polymorphic recursion
+
+* The type of a recursive function is unified with its own usage
+* It cannot be polymorphic if used recursively in a monomorphic way
+
+Example:
+
+```ocaml
+let rec first x l =
+    match l with [] -> x | l :: _ -> l
+and f () =
+    (first 1 [], first 1. []) ;;
+Error: This expression has type float
+       but an expression was expected of type int
+```
+
+Solution:
+```ocaml
+let rec first : 'a. 'a -> 'a list -> 'a
+    = fun x l -> match l with [] -> x | l :: _ -> l
+and f () = (first 1 [], first 1. []) ;;
+val first : 'a -> 'a list -> 'a = <fun>
+val f : unit -> int * float = <fun>
+```
+
