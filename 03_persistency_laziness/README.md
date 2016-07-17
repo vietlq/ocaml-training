@@ -67,8 +67,8 @@ val fold: ('a -> 'b -> 'a) -> 'b bst -> 'a -> 'a
 
 ## Laziness
 
-**OCaml** Strict evaluation: Arguments are evaluated *before* a function call
-**Haskell** Laziness: Arguments are evaluated when *first-used* by the function
+* **OCaml** Strict evaluation: Arguments are evaluated *before* a function call
+* **Haskell** Laziness: Arguments are evaluated when *first-used* by the function
 
 #### OCaml allows explicit laziness
 
