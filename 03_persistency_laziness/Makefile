@@ -9,3 +9,5 @@ include ../defs.mk
 040: o040_red_black_tree.ml
 	$(OBC) o040_red_black_tree.ml -o 040_red_black_tree.native
 
+041: o041_intro_to_laziness.ml
+	$(OBC) o041_intro_to_laziness.ml -o 041_intro_to_laziness.native
