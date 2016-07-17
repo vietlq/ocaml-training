@@ -1,10 +1,6 @@
-OCB_FLAGS = -use-ocamlfind
-OCB 	  = ocamlbuild $(OCB_FLAGS)
-
 all: native byte
 
-clean:
-	$(OCB) -clean
+include ../../defs.mk
 
 native: sanity
 	$(OCB) nlist_tests.native
@@ -24,5 +20,5 @@ sanity:
 test: native
 	./nlist_tests.native
 
-.PHONY: all clean native byte profile debug test
+.PHONY: all clean native byte profile debug test default
 
