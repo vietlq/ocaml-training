@@ -93,11 +93,22 @@ let rec map2 f xs ys =
     end
 
 (*
+ * Drop first n elements - generic version of tail
+*)
+let rec drop n xs =
+    if n < 1 then xs
+    else
+        match Lazy.force xs with
+        | Nil -> invalid_arg "drop empty"
+        | Cons (x, xs) -> drop (n - 1) xs
+
+(*
  * Play with some functions:
      * to_list (take 10 naturals)
      * to_list (take 10 squares)
      * to_list (take 10 odd_nums)
      * to_list (take 10 fibs)
+     * to_list (take 10 (drop 10 fibs))
 *)
 
 (* The infinite stream of all natural numbers *)

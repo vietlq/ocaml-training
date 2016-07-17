@@ -12,6 +12,6 @@ include ../defs.mk
 041: o041_intro_to_laziness.ml
 	$(OBC) o041_intro_to_laziness.ml -o 041_intro_to_laziness.native
 
-042: o042_intro_to_streams.ml
-	$(OBC) o042_intro_to_streams.ml -o 042_intro_to_streams.native
+042:
+	make -C 042_intro_to_streams
 
