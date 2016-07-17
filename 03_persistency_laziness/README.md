@@ -57,3 +57,8 @@ val fold: ('a -> 'b -> 'a) -> 'b bst -> 'a -> 'a
 * On the path back to the tree root, rebalance all the sequence of two red nodes
 * Tag the root in black
 
+#### Best practices for mutations
+
+* Keep the core of an application to a pure functional setting, or at least, use persistent data structures
+* Keep functional interface while using mutation in the implementation
+
