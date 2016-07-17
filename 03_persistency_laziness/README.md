@@ -78,3 +78,11 @@ val fold: ('a -> 'b -> 'a) -> 'b bst -> 'a -> 'a
 * A syntactic construction: `lazy expr`, where `lazy` is a keyword
 * A function for explicit evaluation: `Lazy.force: 'a lazy_t -> 'a`
 
+#### How laziness works
+
+* Internally, the laziness is implemented with side-effects
+* A creation a lazy value, of type `'a lazy_t` is a *frozen* computation
+* *Frozen computation* is a closure - representing a function of type `unit -> 'a`
+* After the first evaluation, all references to the closure are replaced with the computed value
+* A hidden closure may introduce hard to track memory leaks. Use with care
+
