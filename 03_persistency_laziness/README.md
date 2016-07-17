@@ -86,3 +86,13 @@ val fold: ('a -> 'b -> 'a) -> 'b bst -> 'a -> 'a
 * After the first evaluation, all references to the closure are replaced with the computed value
 * A hidden closure may introduce hard to track memory leaks. Use with care
 
+#### More reading about laziness
+
+* http://www.cs.cornell.edu/courses/cs3110/2011sp/lectures/lec24-streams/streams.htm
+* https://ocaml.org/learn/tutorials/streams.html
+* https://www.reddit.com/r/ocaml/comments/2y7b3p/i_am_new_to_ocaml_is_there_any_way_to_write/
+* https://ocaml-batteries-team.github.io/batteries-included/hdoc2/BatLazyList.html
+* http://ocaml-batteries-team.github.io/batteries-included/hdoc2/BatSeq.html
+* https://github.com/c-cube/gen
+* https://github.com/c-cube/sequence
+
