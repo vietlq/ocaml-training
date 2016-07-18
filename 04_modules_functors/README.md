@@ -129,6 +129,35 @@ If you have complex dependencies, use `ocamldep` & `ocamlbuild`.
 
 ### Documentation
 
+The `ocamldoc` tool defines a special syntax for comments:
+
+* Documentation comments are `(** enclosed like this *)`
+* Associated to the nearest element (before or after, without linebreaks)
+* The first of the file describes the module
+
+Let's update our `realtimefifo.mli` with documentation:
+
+```ocaml
+(** An efficient implementation of FIFO that provides real-time guarantee. This implementation uses streams. *)
+
+(** Exception type raised when the FIFO is empty. *)
+exception Empty
+
+(** Abstract generic type for the FIFO. *)
+type 'a fifo
+
+(** An empty FIFO. One use use this as a starting point & push elements. *)
+val empty : 'a fifo
+
+(** Push an element to the FIFO. Amortized O(1) time complexity. *)
+val push : 'a -> 'a fifo -> 'a fifo
+
+(** Pop the first element from the FIFO. Amortized O(1) time complexity. *)
+val pop : 'a fifo -> 'a * 'a fifo
+```
+
+Then we can run `ocamldoc -html realtimefifo.mli` and see the result.
+
 ## Abstraction
 
 ## The module Language
