@@ -82,3 +82,19 @@ let pop fifo =
                 front_len = fifo.front_len - 1 ;
                 lazy_front = lazy (List.tl (Lazy.force lazy_front)) }
 
+(*
+ * What's the improvement over the Naivefifo?
+ * In Naivefifo, in presence of persistency,
+ * if front = [] and rear = [1;2;3],
+ * every time you call pop, you spend O(n) on balancing.
+ * With Lazyfrontfifo, front is updated in 2 cases:
+     * When front = [] and rear is not empty (check_head)
+     * When front_len <= rear_len (check_balance)
+ * Let's say you have fifo = { front = [] ; rear = [1;2;3] }:
+     * The first time you run pop fifo, it will be O(n)
+     * The next time you run pop fifo, it will be O(1)
+     * Note that pushing and popping fifo/its resulting records will be O(1) for the next n more operations
+     * Note that both pushing and popping are amortized O(1)
+     * Pop & push both can lead to check_balance, and then check_head
+*)
+
