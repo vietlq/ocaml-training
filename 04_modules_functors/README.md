@@ -68,7 +68,7 @@ testfifo.native: fifo.cmx main.cmx
     ocamlopt -c $<
 
 clean:
-    -$(RM) -f *.cmx *.cmx *.cmo *.cmxa testfifo.native
+    rm -f *.cmx *.cmx *.cmo *.cmxa testfifo.native
 ```
 
 For more robust building methods, refer to 'build_guide.md' at the top of this repo.
@@ -101,9 +101,31 @@ One can generate a `.mli` from the `.ml` file using:
 ocamlopt -i realtimefifo.ml > realtimefifo.mli
 ```
 
-Make sure to edit the generated file `realtimefifo.mli` to keep interface tidy & nice.
+Make sure to edit the generated file `realtimefifo.mli` to keep interface tidy & nice. Check the `build_guide.md` at the top level of this repo.
 
 ### Interface compilation
+
+* Interfaces are compiled to `.cmi` files
+* When checking a reference to an external module, `ocamlopt` will look for its `.cmi` first
+* When an interface is present, `ocamlopt` will require it to be compiled before the source
+
+The updated `Makefile`:
+
+```Makefile
+testfifo.native: fifo.cmx main.cmx
+    ocamlopt $^ -o $@
+
+%.cmx: %.mli
+    ocamlopt -c $<
+
+%.cmx: %.ml
+    ocamlopt -c $<
+
+clean:
+    rm -f *.cmx *.cmx *.cmi *.cmo *.cmxa testfifo.native
+```
+
+If you have complex dependencies, use `ocamldep` & `ocamlbuild`.
 
 ### Documentation
 
