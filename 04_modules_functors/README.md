@@ -160,6 +160,36 @@ Then we can run `ocamldoc -html realtimefifo.mli` and see the result.
 
 ## Abstraction
 
+### Structure rewriting & hiding
+
+The interface must not follow the implementation completely
+
+* To hide internal auxiliary elements
+* To hide functions that may break internal invariants
+* To help provide a more structured documentation
+
+For this, it is possible to:
+
+* Hide types and values
+* Reorder everything
+* Use type aliases instead of primitive types
+
+Rewriting is allowed as long as:
+
+* The interface is still consistent with the implementation. E.g. an integer in the implementation cannot be exported with type float
+* The interface is self consistent. E.g. types are used after their definition, etc.
+
+We speak of *structural inclusion* between:
+
+* The internal structure, infered by OCaml
+* The external structure, written by the programmer
+
+This inclusion is checked when compiling the implementation.
+
+### Abstract types
+
+### Private types
+
 ## The module Language
 
 ## Using Standard Functors
