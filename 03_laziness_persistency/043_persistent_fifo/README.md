@@ -49,7 +49,8 @@ type 'a fifo = {
 * However, due to laziness and memoization:
  * Unlike `Naivefifo` which has subsequent calls to persistent FIFO is always O(n)
  * `Lazyfrontfifo` guarantees that subsequent calls to persistent FIFO is O(1)
-* If length of front is N and rear is 0, the next time when Lazy.force is called is after N pops/N pushes or the number of pops + number of pushes = N.
+* If length of `front` is `N` and `rear` is `0`, the next time when `Lazy.force` is called is after `N pops`/`N pushes` or `the number of pops + the number of pushes = N`.
+* The field `front` is sub-list of `lazy_front`
 
 ### The third - `Realtimefifo`
 
