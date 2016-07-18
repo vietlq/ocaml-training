@@ -5,6 +5,7 @@
 * Each file `something.ml` defines a module named `Something`
 * Its names can be accessed from other modules prefixed by `Something.`
 * One can omit the prefix `Something.` by using `open Something ;;` or `let open Something in`
+* One also can use `Momo.(...)` and `Modo.{...}` in expressions
 * The module relationship is a partial order (must be acyclic, no cycles)
 
 Let's say we have a file `fifo.ml`:
@@ -42,6 +43,35 @@ open Fifo ;;
 ```
 
 ### Separate compilation
+
+Multi-modular programs can be compiled in one invocation:
+
+`ocamlopt fifo.ml main.ml -o testfifo.native`
+
+Note that the order is important
+
+The modules can be compiled separately too:
+
+```
+ocamlopt -c fifo.ml
+ocamlopt -c main.ml
+ocamlopt fifo.cmx main.cmx -o testfifo.native
+```
+
+A simple `Makefile`:
+
+```Makefile
+testfifo.native: fifo.cmx main.cmx
+    ocamlopt $^ -o $@
+
+%.cmx: %.ml
+    ocamlopt -c $<
+
+clean:
+    -$(RM) -f *.cmx *.cmx *.cmo *.cmxa testfifo.native
+```
+
+For more robust building methods, refer to 'build_guide.md' at the top of this repo.
 
 ### Interfaces
 
