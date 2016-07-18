@@ -75,6 +75,25 @@ For more robust building methods, refer to 'build_guide.md' at the top of this r
 
 ### Interfaces
 
+* Each `.ml` file can be accompanied by a `.mli` file with the same prefix.
+* The `.mli` file defines interface of the `.ml` file.
+* Anything not specified in `.mli` can't be accessed by external callers if they link in compiled interface.
+* Interfaces define:
+ * The types present in the source, with the same syntax.
+ * Each value (function or not) present in the source in the form: `val name: type`
+
+An example from `realtimefifo.mli`:
+
+```ocaml
+exception Empty
+type 'a fifo (* an abstract type *)
+val empty : 'a fifo
+val push : 'a -> 'a fifo -> 'a fifo
+val pop : 'a fifo -> 'a * 'a fifo
+```
+
+The file `realtimefifo.mli` provides definition for the abstract type `'a fifo` and also it has a few more internal functions that not exposed to the interface file `realtimefifo.mli`.
+
 ### Interface compilation
 
 ### Documentation
