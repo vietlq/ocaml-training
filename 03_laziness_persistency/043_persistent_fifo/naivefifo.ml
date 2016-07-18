@@ -36,14 +36,3 @@ let pop fifo =
     | { front = [] } -> raise Empty
     | { front = x :: front ; rear } -> x, { front ; rear }
 
-let () =
-    let fifo = empty in
-    let fifo = push 1 fifo in
-    let fifo = push 2 fifo in
-    let fifo = push 3 fifo in
-    let _, _ = pop fifo in
-    let _, _ = pop fifo in
-    let x, fifo_3 = pop fifo in
-    let y, fifo_4 = pop fifo_3 in
-    Printf.printf "x = %d ; y = %d\n" x y
-
