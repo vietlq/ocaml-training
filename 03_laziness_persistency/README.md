@@ -2,13 +2,13 @@
 
 *Accumulator* is a common pattern to
 
-* Allow tail recursion and avoid stack overflow
-* Define generic iterator like List.fold_left
+* Allow tail recursion and avoid stack overflow. Read `o038_filter_list.ml` & `o039_sum_tree_nodes.ml`.
+* Define generic iterator like List.fold_left. Read `o038_filter_list.ml` & `o039_sum_tree_nodes.ml`.
 
 *Continuation* is a functional parameter of a function, that will be applied to the returned value (instead of simply returning the value)
 
-* Concrete continuation: Values added to a list
-* Functional continuation: Values cause new functions to be added to a list or wrapped in another function
+* Concrete continuation: Values added to a list. Read `o039_sum_tree_nodes.ml`.
+* Functional continuation: Values cause new functions to be added to a list or wrapped in another function. Read `o039_sum_tree_nodes.ml`.
 
 ## Mutations
 
