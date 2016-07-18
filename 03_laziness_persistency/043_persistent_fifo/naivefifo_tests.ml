@@ -23,7 +23,8 @@ let test_pop test_ctx =
     let _, _ = pop fifo in
     let x, fifo_3 = pop fifo in
     let y, fifo_4 = pop fifo_3 in
-    assert_equal (x, y) (1, 2)
+    let z, fifo_5 = pop fifo_4 in
+    assert_equal (x, y, z) (1, 2, 3)
 
 let test_suite = "test_naivefifo" >::: [
     "Test push" >:: test_push ;
