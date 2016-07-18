@@ -19,7 +19,7 @@ type 'a fifo = {
 * With `fifo = { front = [] ; rear = [1; 2; 3; ...; N] }`:
  * Every time we run `pop fifo`, we always get O(N) time complexity. Not good for persistent FIFO
  * With `_, fifo1 = pop fifo`, whenever we run `pop fifo1`, we always get O(1) time complexity
-* We can improve time complexity for subsequent `pop fifo` with laziness
+* We can improve time complexity for subsequent `pop fifo` with laziness.
 
 ### The second - `Lazyfrontfifo`
 
@@ -50,7 +50,7 @@ type 'a fifo = {
  * Unlike `Naivefifo` which has subsequent calls to persistent FIFO is always O(n)
  * `Lazyfrontfifo` guarantees that subsequent calls to persistent FIFO is O(1)
 * If length of `front` is `N` and `rear` is `0`, the next time when `Lazy.force` is called is after `N pops`/`N pushes` or `the number of pops + the number of pushes = N`.
-* The field `front` is sub-list of `lazy_front`
+* The field `front` is sub-list of `lazy_front`.
 
 ### The third - `Realtimefifo`
 
@@ -79,5 +79,5 @@ type 'a fifo = {
 * When pushing, `rear` gets a new element, `front` stays the same, but `accu` loses its first element
 * Unlike `Lazyfrontfifo`, in this case `Lazy.force` is called on every push/pop
 * Unlike `Lazyfrontfifo` when `rear` is emptied when `rear_len >= front_len`, in this case `rear` is emptied when `len of front = len of rear - 1`
-* Thanks to laziness, only the first call to empty `rear` will be O(n) where `n = length of rear`, all subsequent calls are O(1)
+* Thanks to laziness, only the first call to empty `rear` will be O(n) where `n = length of rear`, all subsequent calls are O(1).
 
