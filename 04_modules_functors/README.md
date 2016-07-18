@@ -243,6 +243,15 @@ Differences with type abstraction:
 
 **Note:** A same interface can contain public, private and abstract types.
 
+The updated interface file:
+
+```ocaml
+type t = private { x : int ; y : int }
+val origin : t
+val translate : t -> int -> int -> t
+val above : t -> t -> bool
+```
+
 ## The module Language
 
 ## Using Standard Functors
