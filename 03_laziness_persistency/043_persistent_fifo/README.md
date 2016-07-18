@@ -54,3 +54,30 @@ type 'a fifo = {
 
 ### The third - `Realtimefifo`
 
+This approach uses 2 streams to cache and amortize cost of push and popping for the FIFO:
+
+```ocaml
+type 'a stream = 'a stream_cell lazy_t
+and 'a stream_cell = Nil | Cons of 'a * 'a stream
+
+type 'a fifo = {
+    front : 'a stream ;
+    rear  : 'a list ;
+    accu  : 'a stream
+}
+```
+
+* The field `accu` is a sub-stream of `front`
+* Both push & pop have amortized time complexity of O(1)
+* Both push & pop are followed by check balance
+* Balance checking forces the field `accu` to drop its first element and forces the next cell to appear
+* If the field `accu` is empty, then the `rear` is rotated
+ * The field `rear` will be empty
+ * The contents of `rear` will be transferred to `front` & `accu`
+ * Note that in this case `accu` will be `front`
+* When popping, both `front` & `accu` will lose their first element
+* When pushing, `rear` gets a new element, `front` stays the same, but `accu` loses its first element
+* Unlike `Lazyfrontfifo`, in this case `Lazy.force` is called on every push/pop
+* Unlike `Lazyfrontfifo` when `rear` is emptied when `rear_len >= front_len`, in this case `rear` is emptied when `len of front = len of rear - 1`
+* Thanks to laziness, only the first call to empty `rear` will be O(n) where `n = length of rear`, all subsequent calls are O(1)
+
