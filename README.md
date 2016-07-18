@@ -160,3 +160,14 @@ For more info, read:
 WIP, read more at:
 
 * https://ocaml.org/learn/tutorials/compiling_with_omake.html
+
+## Testing Code
+
+### Basic printing to the screen
+
+Each file here has some tests designed for it and instead of assertions, tests print results
+
+### Running unit tests with OUnit
+
+For usage, check http://ounit.forge.ocamlcore.org/api-ounit/index.html
+
