@@ -96,3 +96,7 @@ val fold: ('a -> 'b -> 'a) -> 'b bst -> 'a -> 'a
 * https://github.com/c-cube/gen
 * https://github.com/c-cube/sequence
 
+## Persistency
+
+OCaml takes care of garbage collection and prefers side-effect free operations to mutations. Sharing is preferred to copying. Check `043_persistent_fifo` for examples to construct efficient persistent FIFO with amortized O(1) time complexity. Two efficient implementations are provided using `lazy_t` and custom `stream` type.
+
