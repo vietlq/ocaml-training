@@ -86,13 +86,22 @@ An example from `realtimefifo.mli`:
 
 ```ocaml
 exception Empty
-type 'a fifo (* an abstract type *)
+(* an abstract type *)
+type 'a fifo
 val empty : 'a fifo
 val push : 'a -> 'a fifo -> 'a fifo
 val pop : 'a fifo -> 'a * 'a fifo
 ```
 
 The file `realtimefifo.mli` provides definition for the abstract type `'a fifo` and also it has a few more internal functions that not exposed to the interface file `realtimefifo.mli`.
+
+One can generate a `.mli` from the `.ml` file using:
+
+```
+ocamlopt -i realtimefifo.ml > realtimefifo.mli
+```
+
+Make sure to edit the generated file `realtimefifo.mli` to keep interface tidy & nice.
 
 ### Interface compilation
 
