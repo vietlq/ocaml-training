@@ -21,11 +21,15 @@ let empty = {
 (*
  * Check the front, refresh it when needed.
  * This solves edge case where front = []
- * and we still have front_len > rear_len
+ * and we still have front_len > rear_len.
+ * Consider the case:
+     * front = [1] & rear = []
+     * lazy_front = [2;3;4]
+     * front_len = 4 & rear_len = 0
 *)
 let check_head fifo =
-    match fifo with
-    | { front = [] } -> { fifo with front = Lazy.force fifo.lazy_front }
+    match fifo.front with
+    | [] -> { fifo with front = Lazy.force fifo.lazy_front }
     | _ -> fifo
 
 (*
