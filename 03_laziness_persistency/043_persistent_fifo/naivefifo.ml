@@ -17,8 +17,8 @@ let push x fifo = { fifo with rear = x :: fifo.rear }
 
 (*
  * Reverse FIFO if the front is empty
- * The implementation is not scalable
- * The worst case is O(n) in time with n is size of rear
+ * The implementation is not scalable.
+ * The worst case is O(n) in time with n is size of rear.
 *)
 let may_reverse fifo =
     match fifo with
@@ -28,8 +28,10 @@ let may_reverse fifo =
 
 (*
  * Pop the front element from a FIFO instance
- * The implementation is not scalable
- * The worst case is O(n) in time with n is size of rear
+ * The implementation is not scalable.
+ * The worst case is O(n) in time with n is size of rear.
+ * The average case is amortized O(1) with
+ * the cost of may_reverse shared among n pops.
 *)
 let pop fifo =
     match may_reverse fifo with
