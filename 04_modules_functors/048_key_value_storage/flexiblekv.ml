@@ -65,18 +65,23 @@ module In_memory_table : TABLE = struct
     (* Note that the dir/name of DB is not used at all. Something to improve *)
 end
 
+(* This module wraps both on-disk & in-memory implementations, creating memory cache *)
 module Cache_table : TABLE = struct
+    (* Combined table type *)
     type 'a table = 'a On_disk_table.table * 'a In_memory_table.table
 
+    (* Initialize both on-disk & in-memory providers *)
     let init to_string of_string dir =
         let ondisk = On_disk_table.init to_string of_string dir in
         let inmemory = In_memory_table.init to_string of_string dir in
         (ondisk, inmemory)
 
+    (* First update in-memory, then persist on the disk *)
     let put k v (ondisk, inmemory) =
         In_memory_table.put k v inmemory ;
         On_disk_table.put k v ondisk
 
+    (* First attempt to get from in-memory cache. If doesn't exist, go to the disk. Populate the in-memory cache *)
     let get k (ondisk, inmemory) =
         match In_memory_table.get k inmemory with
         | v -> v
