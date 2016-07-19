@@ -99,7 +99,7 @@ In our case, we could do the following to the `TABLE`:
 module type TABLE = sig
     type 'a table
     type param
-    val init : ('a -> string) (string -> 'a) -> param -> 'a table
+    val init : ('a -> string) -> (string -> 'a) -> param -> 'a table
     val put : string -> 'a -> 'a table -> unit
     val get : string -> 'a table -> 'a
 end

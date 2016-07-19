@@ -127,3 +127,20 @@ module Cache_table : TABLE = struct ... end
 
 Ideally for `In_memory_table.init`, we want to have the last param to be of type `unit` and not `string` and then omitted. To achieve this, we will need interface rewriting in the next part.
 
+In our case, we could do the following to the `TABLE`:
+
+```ocaml
+module type TABLE = sig
+    type 'a table
+    type param
+    val init : ('a -> string) -> (string -> 'a) -> param -> 'a table
+    val put : string -> 'a -> 'a table -> unit
+    val get : string -> 'a table -> 'a
+end
+
+(* Then the modules could be given refined signatures *)
+module In_memory_table : TABLE with type param := unit
+
+module On_disk_table : TABLE with type param := string
+```
+
