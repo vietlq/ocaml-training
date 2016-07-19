@@ -112,3 +112,81 @@ module On_disk_table : TABLE with type param := string
 
 ### Composition
 
+Another module language primitive is `include`.
+
+In signatures:
+
+* To type module level inheritance
+* With signature rewriting, to type module level traits
+* Syntax: `include NAME`
+* With rewriting: `include NAME with type ...`
+
+In implementation:
+
+* To extend or patch existing modules
+* Syntax: `include Name`
+* With signature: `include (Name : NAME)`
+* With rewritten signature: `include (Name : NAME with type ...)`
+
+#### Monomorphic restrictions
+
+One could provide pre-instanced cached tables for primitive types. Their interface is simpler, say for Int_table:
+
+```ocaml
+module Int_table : sig
+    type t
+    val init : string -> t
+    val put : string -> int -> t -> unit
+    val get : string -> t -> int
+end
+```
+
+Here's generic interface for monomorphic modules:
+
+```ocaml
+module type TYPED_TABLE = sig
+    type t
+    type value
+    val init : string -> t
+    val put : string -> value -> t -> unit
+    val get : string -> t -> value
+end
+
+(* Instantiate by rewriting - equivalent to C++ template specialization *)
+module Int_table : TYPED_TABLE with type value := int
+module Float_table : TYPED_TABLE with type value := float
+module String_table : TYPED_TABLE with type value := string
+```
+
+When implementing modules, we patch polymorphic implementation:
+
+```ocaml
+module Int_table = struct
+    (* All definitions of In_memory_table are available *)
+    include In_memory_table
+    (* Set the correct table type *)
+    type t = int table
+    (* Wrap In_memory_table.init *)
+    let init dir = init string_of_int int_of_string dir
+end
+
+module Float_table = struct
+    (* All definitions of In_memory_table are available *)
+    include In_memory_table
+    (* Set the correct table type *)
+    type t = float table
+    (* Wrap In_memory_table.init *)
+    let init dir = init string_of_float float_of_string dir
+end
+
+module String_table = struct
+    (* All definitions of In_memory_table are available *)
+    include In_memory_table
+    (* Set the correct table type *)
+    type t = string table
+    (* Wrap In_memory_table.init *)
+    let init dir = init (fun s -> s) (fun s -> s) dir
+end
+```
+
+
