@@ -40,7 +40,75 @@ Signatures can be named:
 
 ### Example: variations on a (key x value) table
 
+Check `048_key_value_storage` for more details.
+
+Ideally for `In_memory_table.init`, we want to have the last param to be of type `unit` and not `string` and then omitted. To achieve this, we will need interface rewriting in the next part.
+
 ### Abstraction and signature rewriting
+
+The abstract types of a named interface can be refined in two ways:
+
+* Variant 1:
+ * `NAME with type t = def`
+ * This will build the same interface with `t` publicly specified to be `def`
+* Variant 2:
+ * `NAME with type t := def`
+ * This will remove the declaration of `t` and replace all its occurences with `def`
+
+Let's say we have an interface:
+
+```ocaml
+module type OF_STRING = sig
+    type t
+    val of_string : string -> t
+end
+```
+
+We can rewrite it as follows:
+
+```ocaml
+module Float_of_string : OF_STRING with type t = float
+```
+
+The line above is equivalent to writing:
+
+```ocaml
+module Float_of_string : sig
+    type t = float
+    val of_string : string -> t
+end
+```
+
+Alternatively, we can make `t` disappear:
+
+```ocaml
+module Float_of_string : OF_STRING with type t := float
+```
+
+The line above is equivalent to writing:
+
+```ocaml
+module Float_of_string : sig
+    val of_string : string -> float
+end
+```
+
+In our case, we could do the following to the `TABLE`:
+
+```ocaml
+module type TABLE = sig
+    type 'a table
+    type param
+    val init : ('a -> string) (string -> 'a) -> param -> 'a table
+    val put : string -> 'a -> 'a table -> unit
+    val get : string -> 'a table -> 'a
+end
+
+(* Then the modules could be given refined signatures *)
+module In_memory_table : TABLE with type param := unit
+
+module On_disk_table : TABLE with type param := string
+```
 
 ### Composition
 

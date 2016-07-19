@@ -39,6 +39,8 @@ val put : string -> 'a -> 'a table -> unit
 val get : string -> 'a table -> 'a
 ```
 
+Ideally for `In_memory_table.init`, we want to have the last param to be of type `unit` and not `string` and then omitted. To achieve this, we will need interface rewriting in the next part.
+
 ### Basic mixed module of on-disk & in-memory implementations
 
 Check `basicmixedkv.mli` & `basicmixedkv.ml` for details:
@@ -122,4 +124,6 @@ module On_disk_table : TABLE = struct ... end
 module In_memory_table : TABLE = struct ... end
 module Cache_table : TABLE = struct ... end
 ```
+
+Ideally for `In_memory_table.init`, we want to have the last param to be of type `unit` and not `string` and then omitted. To achieve this, we will need interface rewriting in the next part.
 
