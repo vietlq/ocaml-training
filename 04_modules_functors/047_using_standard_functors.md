@@ -28,7 +28,9 @@ The standard library defines:
 
 For constructing maps, the `map.mli` exports the functor:
 
-`module Make (Ord : OrderedType) : S with type key = Ord.t`
+```ocaml
+module Make (Ord : OrderedType) : S with type key = Ord.t
+```
 
 * `OrderedType` is the signature that the parameter must respect
 * `S` is the signature of the result. It is linked to the parameter by the `with type` syntax
