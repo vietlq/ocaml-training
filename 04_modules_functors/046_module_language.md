@@ -189,4 +189,51 @@ module String_table = struct
 end
 ```
 
+#### Extend interface & implementation with `include`
+
+Let's say we want to add a new method `clear` that remove all entries from a key-value table. We can provide new interface and new implementation with minimal effort using `include`.
+
+```ocaml
+(* The previous tables do no have a function to clear entries, we can add now *)
+module type CLEARABLE_TABLE = sig
+    (* Copy all interface items from TABLE *)
+    include TABLE
+    (* Add extra method *)
+    val clear : 'a table -> unit
+end
+
+(* Now declare new interfaces with specific parameters *)
+module Clearable_in_memory_table : CLEARABLE_TABLE with type param := unit
+module Clearable_on_disky_table : CLEARABLE_TABLE with type param := string
+module Clearable_cached_table : CLEARABLE_TABLE with type param := string
+```
+
+```ocaml
+(* Extend the implementations using include *)
+module Clearable_in_memory_table = struct
+    (* Obtain public names/methods from In_memory_table *)
+    include In_memory_table
+    (* Define own method to extend *)
+    let clear { table } = Hashtbl.clear table
+end
+
+module Clearable_on_disk_table = struct
+    (* Obtain public names/methods from On_disk_table *)
+    include On_disk_table
+    (* Define own method to extend *)
+    let clear { dir } =
+        Array.iter
+            (fun f -> Unix.unlink (Filename.concat dir f))
+            (Sys.readdir dir)
+end
+
+module Clearable_cached_table = struct
+    (* Obtain public names/methods from Cached_table *)
+    include Cached_table
+    (* Define own method to extend *)
+    let clear (ondisk, inmemory) =
+        Clearable_in_memory_table.clear inmemory ;
+        Clearable_on_disk_table.clear ondisk
+end
+```
 
