@@ -174,5 +174,81 @@ module Make_multiset : functor (E : ELEMENT) -> MULTISET with type elt = E.t
 
 #### Functor Application
 
+A small test program:
+
+```ocaml
+let () =
+    let module SMS = Make_multiset (String) in
+    let items = ["a"; "a"; "c"; "b"; "c"; "c"] in
+    let sms = List.fold_right SMS.add items SMS.empty in
+    assert
+        (List.map
+            (fun x -> SMS.multiplicity x sms)
+            ["a"; "b"; "c"; "d"]
+            = [2; 1; 3; 0])
+```
+
+Now we want to have two multiset instances:
+
+```ocaml
+let module Wines = Make_multiset (String) in
+let module Beers = Make_multiset (String) in
+let win_cellar = ref Wines.empty in
+let beer_cellar = ref Beers.empty in
+wine_cellar := Wines.add "Bordeaux" !wine_cellar ;
+wine_cellar := Wines.add "Moscato" !wine_cellar ;
+wine_cellar := Beers.add "Heineken" !wine_cellar ;
+wine_cellar := Wines.add "St-Emilion" !wine_cellar ;
+
+(* Now the wine cellar got a Heineken and the program will accept it! *)
+```
+
+Note that Heineken was added peacefully to the wine cellar.
+
+OCaml considers equal all applications of a functor to the *same* module:
+
+* This equality is based on the *name*, not *structure*
+* We have `Wines.t = Wines.t = Make_multiset (String).t`
+* However, module aliases recognized: `module S1 = String ;; module S2 = String`. That makes `S1` and `S2` equal
+* The same happens with `Map` from the standard library
+
+This optimization is sure smart and can be useful, however, we don't want this aliasing.
+
+There are 3 ways to fix the issue:
+
+* Define two new named modules with the same elements:
+
+```ocaml
+module Wine_name = struct
+    type t = string
+    let compare = Pervasives.compare
+end
+
+module Beer_name = struct
+    type t = string
+    let compare = Pervasives.compare
+end
+```
+
+* Copy the contents of `String` twice:
+
+```ocaml
+module Wine_name = struct include String end
+module Beer_name = struct include String end
+```
+
+* Use anonymous modules: `struct include String end` directly
+
+Thus, we don't use the module `String` directly now:
+
+```ocaml
+let () =
+    let module Wines = Make_multiset (struct include String end) in
+    let module Beers = Make_multiset (struct include String end) in
+    (* ... *)
+```
+
+This solves issue with calling `Beers` methods on instances of `Wines`.
+
 ### First Class Modules
 
