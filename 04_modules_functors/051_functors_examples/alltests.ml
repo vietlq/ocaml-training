@@ -35,10 +35,25 @@ let test_multiset_multiplicity test_ctx =
         = [2; 1; 1; 0]
     )
 
+let test_multiset_multiplicity2 test_ctx =
+    let module MyMultiSet = Multiset.Make_multiset (struct include String end) in
+    let open MyMultiSet in
+    let ms = add "a" empty in
+    let ms = add "c" ms in
+    let ms = add "a" ms in
+    let ms = add "b" ms in
+    assert (
+        (List.fold_right
+            (fun elt acc -> multiplicity elt ms :: acc)
+            ["a"; "b"; "c"; "d"] [])
+        = [2; 1; 1; 0]
+    )
+
 let test_suite = "test_multisets" >::: [
     "Test Naivemultiset add" >:: test_naivemultiset_add ;
     "Test Naivemultiset multiplicity" >:: test_naivemultiset_multiplicity ;
     "Test Multiset" >:: test_multiset_multiplicity ;
+    "Test Multiset Anon-Module" >:: test_multiset_multiplicity2 ;
 ]
 
 let () =
