@@ -35,6 +35,7 @@ let test_multiset_multiplicity test_ctx =
         = [2; 1; 1; 0]
     )
 
+(* Intantiate with anonymous type (struct include String end) *)
 let test_multiset_multiplicity2 test_ctx =
     let module MyMultiSet = Multiset.Make_multiset (struct include String end) in
     let open MyMultiSet in
