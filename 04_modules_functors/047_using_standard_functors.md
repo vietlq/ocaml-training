@@ -5,7 +5,7 @@
 What are functors?
 
 * Parametric modules
-* Module level functions
+* Module level functions (functions that operate on modules)
 
 The code of a functor:
 
