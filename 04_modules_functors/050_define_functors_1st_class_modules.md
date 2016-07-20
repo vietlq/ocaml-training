@@ -252,3 +252,94 @@ This solves issue with calling `Beers` methods on instances of `Wines`.
 
 ### First Class Modules
 
+* Make a module a value: `let m = (module M : S)`. Locally: `let m = (module M : S) in ...`
+* Make a value a module: `module M = (val m : S)`. Locally: `let module M = (val m : S) in ...`
+* Type of a first class module: `(module S)`
+
+Usage examples:
+
+* Run-time selection of an implementation
+* Plug-ins, combined with dynlink
+* Alternative to objects
+
+Example:
+
+* Different implementation for a same type
+* Implementation stored in the value with the instance
+
+The type of (string x string table):
+
+```ocaml
+module type TABLE = sig
+    type table
+    type param
+    val init : param -> table
+    val put : string -> string -> table -> unit
+    val get : string -> table -> string
+end
+```
+
+In-memory implementation:
+
+```ocaml
+module In_memory_table = struct
+    type table = (string, string) Hashtbl.t
+    type param = unit
+    let init () = Hashtbl.create 100
+    let put k v table = Hashtbl.replace table k v
+    let get k table = Hashtbl.find table k
+end
+```
+
+On-disk implementation:
+
+```ocaml
+module On_disk_table = struct
+    type table = string
+    type param = string
+    let init to_string of_string dir =
+        Unix.mkdir dir 0o750 ;
+        dir
+    let put k v dir =
+        let fp = open_out (Filename.concat dir k) in
+        output_string fp v ;
+        close_out fp
+    let get k dir =
+        let fn = Filename.concat dir k in
+        if not (Sys.file_exists fn) then raise Not_found ;
+        let fp = open_in fn in
+        let len = in_channel_length fp in
+        let buf = Bytes.create len in
+        really_input fp buf 0 len ;
+        close_in fp ;
+        Bytes.to_string buf
+end
+```
+
+An intermediate module type, storing the implementation and instance:
+
+```ocaml
+module type TABLE_INSTANCE = sig
+    include TABLE
+    val instance : table
+end
+```
+
+The first class module type and its primitives:
+
+```ocaml
+type table = (module TABLE_INSTANCE)
+
+let in_memory_table =
+    let module Instance = struct
+        include In_memory_table
+        let instance = init ()
+    end
+    in
+    (module Instance : TABLE_INSTANCE)
+
+let put (module Table : TABLE_INSTANCE) k v = Table.(put k v instance)
+
+let get (module Table : TABLE_INSTANCE) k = Table.(get k instance)
+```
+
