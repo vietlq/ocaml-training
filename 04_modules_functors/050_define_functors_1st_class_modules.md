@@ -31,7 +31,7 @@ let empty = []
 let rec add elt = function
     | [] -> [ (elt, 1) ]
     | (e, m) :: rest when elt = e -> (e, succ m) :: rest
-    | (e, _) as p :: rest when elt > e -> p :: (elt, 1) :: rest
+    | (e, _) as p :: rest when elt > e -> (elt, 1) :: p :: rest
     | p :: rest -> p :: add elt rest
 
 let rec multiplicity elt = function
@@ -87,7 +87,7 @@ module Make_multiset (E : ELEMENT) = struct
     let rec add elt = function
         | [] -> [ (elt, 1) ]
         | (e, m) :: rest when E.compare elt e = 0 -> (e, succ m) :: rest
-        | (e, _) as p :: rest when E.compare elt e > 0 -> p :: (elt, 1) :: rest
+        | (e, _) as p :: rest when E.compare elt e > 0 -> (elt, 1) :: p :: rest
         | p :: rest -> p :: add elt rest
 
     let rec multiplicity elt = function
