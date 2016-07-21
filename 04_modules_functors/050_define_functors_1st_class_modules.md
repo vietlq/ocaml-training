@@ -343,3 +343,10 @@ let put (module Table : TABLE_INSTANCE) k v = Table.(put k v instance)
 let get (module Table : TABLE_INSTANCE) k = Table.(get k instance)
 ```
 
+## References
+
+* http://www.cs.cornell.edu/courses/cs3110/2011sp/lectures/lec09-functors/functors.htm
+* https://realworldocaml.org/v1/en/html/functors.html
+* http://caml.inria.fr/pub/docs/manual-ocaml/moduleexamples.html
+* http://caml.inria.fr/pub/docs/oreilly-book/html/book-ora132.html
+
