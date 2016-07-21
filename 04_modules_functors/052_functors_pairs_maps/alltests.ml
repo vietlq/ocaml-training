@@ -44,6 +44,16 @@ let test_assoc_set_get_unset test_ctx =
             "NOT_FOUND!"
         )
         = "NOT_FOUND!"
+    ) ;
+    assert ((
+        match get 1003 assoc
+        with
+        | exception Not_found ->
+            Printf.eprintf "get 1003 assoc ==> Not_found\n" ;
+            "NOT_FOUND!"
+        | s -> s
+        )
+        = "NOT_FOUND!"
     )
 
 let test_suite = "test_multisets" >::: [
