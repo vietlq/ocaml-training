@@ -56,10 +56,26 @@ let test_assoc_set_get_unset test_ctx =
         = "NOT_FOUND!"
     )
 
+let test_extended_map_of_list test_ctx =
+    let module StringMap = Extendedmap.Make(String) in
+    let open StringMap in
+    let amap = of_list [("Yahoo", "Cool"); ("FB", "Good"); ("Google", "Fun"); ("Uber", "Fast")] in
+    assert (fold (fun key _ acc -> key :: acc) amap [] = ["Yahoo"; "Uber"; "Google"; "FB"])
+
+let test_extended_map_keys test_ctx =
+    let module StringMap = Extendedmap.Make(String) in
+    let module Set = Set.Make(String) in
+    let open StringMap in
+    let amap = of_list [("Yahoo", "Cool"); ("FB", "Good"); ("Google", "Fun"); ("Uber", "Fast")] in
+    let mykeys = keys amap in
+    assert (Set.fold (fun elt acc -> elt :: acc) mykeys [] = ["Yahoo"; "Uber"; "Google"; "FB"])
+
 let test_suite = "test_multisets" >::: [
     "Assoc.SimplePair Make-Left-Right" >:: test_simplepair_make_left_right ;
     "Assoc.Pair Make-Left-Right" >:: test_pair_make_left_right ;
     "Assoc.Assoc Set-Get-Unset" >:: test_assoc_set_get_unset ;
+    "Extendedmap of_list" >:: test_extended_map_of_list ;
+    "Extendedmap keys" >:: test_extended_map_keys ;
 ]
 
 let () =
