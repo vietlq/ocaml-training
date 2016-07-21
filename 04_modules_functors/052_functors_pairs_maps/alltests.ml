@@ -40,7 +40,7 @@ let test_assoc_set_get_unset test_ctx =
             get 1001 oldassoc
         with
         | Not_found ->
-            Printf.eprintf "get 1001 assoc ==> Not_found\n" ;
+            Printf.eprintf "get 1001 oldassoc ==> Not_found\n" ;
             "NOT_FOUND!"
         )
         = "NOT_FOUND!"
