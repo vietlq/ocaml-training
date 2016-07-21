@@ -1,4 +1,4 @@
-module Extend_map :
+module Make :
     functor (Ord : Map.OrderedType) ->
         sig
             include Map.S with type 'a t = 'a Map.Make(Ord).t
