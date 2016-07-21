@@ -50,11 +50,43 @@ let test_multiset_multiplicity2 test_ctx =
         = [2; 1; 1; 0]
     )
 
+(* Make_multiset is a functor derived from a parametized signature MULTISET *)
+let test_newmultiset_multiplicity test_ctx =
+    let module MyMultiSet = Newmultiset.Make_multiset (String) in
+    let open MyMultiSet in
+    let ms = add "a" empty in
+    let ms = add "c" ms in
+    let ms = add "a" ms in
+    let ms = add "b" ms in
+    assert (
+        (List.fold_right
+            (fun elt acc -> multiplicity elt ms :: acc)
+            ["a"; "b"; "c"; "d"] [])
+        = [2; 1; 1; 0]
+    )
+
+(* MakeMultiSet is a functor derived from a parametized functor MULTISET_FTR *)
+let test_newmultiset_multiplicity2 test_ctx =
+    let module MyMultiSet = Newmultiset.MakeMultiSet (String) in
+    let open MyMultiSet in
+    let ms = add "a" empty in
+    let ms = add "c" ms in
+    let ms = add "a" ms in
+    let ms = add "b" ms in
+    assert (
+        (List.fold_right
+            (fun elt acc -> multiplicity elt ms :: acc)
+            ["a"; "b"; "c"; "d"] [])
+        = [2; 1; 1; 0]
+    )
+
 let test_suite = "test_multisets" >::: [
     "Test Naivemultiset add" >:: test_naivemultiset_add ;
     "Test Naivemultiset multiplicity" >:: test_naivemultiset_multiplicity ;
     "Test Multiset" >:: test_multiset_multiplicity ;
     "Test Multiset Anon-Module" >:: test_multiset_multiplicity2 ;
+    "Test Multiset 1" >:: test_newmultiset_multiplicity;
+    "Test Multiset 2" >:: test_newmultiset_multiplicity2;
 ]
 
 let () =
