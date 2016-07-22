@@ -22,12 +22,12 @@ let down_right { path ; tree } =
 
 let down_left { path ; tree } =
     match tree with
-    | Empty -> invalid_arg "down_right"
+    | Empty -> invalid_arg "down_left"
     | Node (l, x, r) -> { path = Left (path, x, r) ; tree = l }
 
 let up { path ; tree } =
     match path with
-    | Top -> { path ; tree }
+    | Top -> invalid_arg "up"
     | Left (oldpath, x, r) -> { path = oldpath ; tree = Node (tree, x, r) }
     | Right (l, x, oldpath) -> { path = oldpath ; tree = Node (l, x, tree) }
 
