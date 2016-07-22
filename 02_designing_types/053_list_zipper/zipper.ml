@@ -3,8 +3,6 @@ type 'a list_zipper = {
     right : 'a list
 }
 
-let empty = { left = [] ; right = [] }
-
 let of_list l = { left = [] ; right = l }
 
 let move_right { left ; right } =
@@ -35,4 +33,12 @@ let delete_after { left ; right } =
 
 let to_list { left ; right } =
     List.rev_append left right
+
+let next { right } =
+    match right with
+    | [] -> None
+    | x :: right -> Some x
+
+let fresh zipper =
+    of_list @@ to_list zipper
 

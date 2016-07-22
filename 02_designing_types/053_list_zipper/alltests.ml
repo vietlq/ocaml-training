@@ -2,7 +2,6 @@ open OUnit2 ;;
 
 let test_list_zipper_empty_to_list test_ctx =
     let open Zipper in
-    assert (to_list empty = []) ;
     assert (to_list (of_list []) = [])
 
 let test_list_zipper_of_list_to_list test_ctx =
