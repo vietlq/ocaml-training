@@ -51,14 +51,16 @@ let wrap_cols width zipper =
         | None -> Zipper.fresh zipper
         | Some s -> (
             let len = String.length s in
-            if len <= 80 then
-                aux @@ Zipper.move_right zipper
-            else
-                let s1, s2 = split_by_len 80 s in
-                Zipper.delete_after zipper
-                |> Zipper.insert_before s1
-                |> Zipper.insert_after s2
-                |> aux
+            let zipper = (
+                if len <= 80 then
+                    Zipper.move_right zipper
+                else
+                    let s1, s2 = split_by_len 80 s in
+                    Zipper.delete_after zipper
+                    |> Zipper.insert_before s1
+                    |> Zipper.insert_after s2
+            ) in
+            aux zipper
         )
     in
     aux @@ Zipper.fresh zipper
