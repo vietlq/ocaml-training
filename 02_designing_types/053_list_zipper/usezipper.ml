@@ -40,26 +40,36 @@ let remove_empty_elems zipper =
     in
     aux @@ Zipper.fresh zipper
 
-let split_by_len n s =
+let split_by_len width s =
     let len = String.length s in
-    let s1 = String.sub s 0 n in
-    let s2 = String.sub s n (len - n) in
-    (s1, s2)
+    let rec aux acc total nleft =
+        if nleft < width then
+            (String.sub s total nleft :: acc)
+        else
+            aux (String.sub s total width :: acc)
+                (total + width) (nleft - width)
+    in
+    (len, List.rev @@ aux [] 0 len)
+
+let rec insert_lines_before lines zipper =
+    match lines with
+    | [] -> zipper
+    | x :: lines ->
+        Zipper.insert_before x zipper
+        |> insert_lines_before lines
 
 let wrap_cols width zipper =
     let rec aux zipper =
         match Zipper.next zipper with
         | None -> Zipper.fresh zipper
         | Some s -> (
-            let len = String.length s in
+            let len, lines = split_by_len width s in
             let zipper =
                 if len <= width then
                     Zipper.move_right zipper
                 else
-                    let s1, s2 = split_by_len width s in
                     Zipper.delete_after zipper
-                    |> Zipper.insert_before s1
-                    |> Zipper.insert_after s2
+                    |> insert_lines_before lines
             in
             aux zipper
         )
