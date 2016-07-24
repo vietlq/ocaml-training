@@ -1,6 +1,6 @@
-type dict = Empty | Node of bool * (char * dict) list
+type dict = Node of bool * (char * dict) list
 
-let empty = Empty
+let empty = Node (false, [])
 
 let explode s =
     let rec aux acc n =
@@ -9,19 +9,15 @@ let explode s =
 
 let rec insert s d =
     let rec descend = function
-        | [], Empty -> Empty
-        | [x], Empty -> Node (false, [(x, Node (true, []))])
-        | x :: y :: xs, Empty -> Node (false, [(x, descend (y :: xs, Empty))])
         | [], Node (_, subs) -> Node (true, subs)
         | [x], Node (ended, []) -> Node (ended, [(x, Node (true, []))])
-        | x :: y :: xs, Node (ended, []) -> Node (ended, [(x, descend (y :: xs, Empty))])
+        | x :: y :: xs, Node (ended, []) -> Node (ended, [(x, descend (y :: xs, empty))])
         | x :: xs, Node (ended, (c, d) :: rest) -> (
             if x = c then
                 Node (ended, (c, descend (xs, d)) :: rest)
             else
-                match descend (x :: xs, Node (ended, rest)) with
-                | Empty -> assert false
-                | Node (_, newrest) -> Node (ended, (c, d) :: newrest)
+                let Node (_, newrest) = descend (x :: xs, Node (ended, rest)) in
+                Node (ended, (c, d) :: newrest)
         )
     in
     match explode s with
@@ -30,7 +26,6 @@ let rec insert s d =
 
 let rec present s d =
     let rec descend = function
-        | _, Empty -> false
         | [], Node (ended, _) -> ended
         | _ :: _, Node (_, []) -> false
         | x :: xs as chars , Node (ended, (c, d) :: l) ->
