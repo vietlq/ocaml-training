@@ -10,28 +10,16 @@ let rec main dict =
     print_string "\n> " ;
     match Str.(split (regexp "[ \t]+") (read_line ())) with
     | command :: args -> (
-        match command with
-        | "present" -> (
-            match args with
-            | [word] ->
-                print_endline (if Dict.present word dict then "Present." else "Not present.") ;
-                main dict
-            | _ -> print_usage () ; main dict
-        )
-        | "insert" -> (
-            match args with
-            | [] -> print_usage () ; main dict
-            | words ->
-                let dict = List.fold_right Dict.insert words dict in
-                print_endline "Added." ;
-                main dict
-        )
-        | "exit" -> (
-            match args with
-            | [] -> print_endline "Bye."
-            | _ -> print_usage () ; main dict
-        )
-        | _ -> print_usage () ; main dict
+        match command, args with
+        | "present", [word] ->
+            print_endline (if Dict.present word dict then "Present." else "Not present.") ;
+            main dict
+        | "insert", (word :: _ as words) ->
+            let dict = List.fold_right Dict.insert words dict in
+            print_endline "Added." ;
+            main dict
+        | "exit", [] -> print_endline "Bye."
+        | _, _ -> print_usage () ; main dict
     )
     | _ -> print_usage () ; main dict
 
