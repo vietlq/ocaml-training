@@ -11,6 +11,8 @@ module type TRIE_S = sig
     val set : key list -> value -> t -> t
     val get : key list -> t -> value
     val present : key list -> t -> bool
+    val keys : t -> key list list
+    val items : t -> (key list * value) list
 end
 
 module Make (P : PAIR) :
@@ -55,6 +57,42 @@ module Make (P : PAIR) :
         match get key d with
         | exception Not_found -> false
         | v -> true
+
+	let keys d =
+		let rec descend acc sofar = function
+			| Node (opt, []) -> (
+				match opt with
+				| None -> acc
+				| Some _ -> List.rev sofar :: acc
+			)
+			| Node (opt, (c, d) :: rest) -> (
+				let newacc = match opt with
+					| None -> acc
+					| Some _ -> List.rev sofar :: acc
+				in
+				let dfs = descend newacc (c :: sofar) d in
+				descend dfs sofar (Node (None, rest))
+			)
+		in
+		List.rev @@ descend [] [] d
+
+	let items d =
+		let rec descend acc sofar = function
+			| Node (opt, []) -> (
+				match opt with
+				| None -> acc
+				| Some v -> (List.rev sofar, v) :: acc
+			)
+			| Node (opt, (c, d) :: rest) -> (
+				let newacc = match opt with
+					| None -> acc
+					| Some v -> (List.rev sofar, v) :: acc
+				in
+				let dfs = descend newacc (c :: sofar) d in
+				descend dfs sofar (Node (None, rest))
+			)
+		in
+		List.rev @@ descend [] [] d
 end
 
 module type TRIE_STRING_S = sig
@@ -65,6 +103,8 @@ module type TRIE_STRING_S = sig
     val set : key -> value -> t -> t
     val get : key -> t -> value
     val present : key -> t -> bool
+    val keys : t -> key list
+    val items : t -> (key * value) list
 end
 
 module type VALUE = sig
@@ -93,5 +133,19 @@ module Make_TrieString (V : VALUE) :
     let get key d = TrieString.get (explode key) d
 
     let present key d = TrieString.present (explode key) d
+
+    let chars_to_str chars =
+        let len = List.length chars in
+        let bytes = Bytes.create len in
+        List.iteri (fun i c -> Bytes.set bytes i c) chars ;
+        Bytes.to_string bytes
+
+	let item_mapper (chars, v) =
+		let key = chars_to_str chars in
+		(key, v)
+
+    let keys d = List.rev @@ List.rev_map chars_to_str @@ TrieString.keys d
+
+	let items d = List.rev @@ List.rev_map item_mapper @@ TrieString.items d
 end
 

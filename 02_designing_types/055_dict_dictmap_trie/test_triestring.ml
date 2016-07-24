@@ -30,7 +30,7 @@ let test_triestring_empty test_ctx =
     assert (is_not_found "bcd" empty) ;
     assert (is_not_found "abcd" empty)
 
-let test_triestring_insert_present_simple test_ctx =
+let test_triestring_set_present_simple test_ctx =
     let open TrieStringInt in
     let tree = set "abcd" 1234 empty in
     assert (present "" tree = false) ;
@@ -54,7 +54,7 @@ let test_triestring_insert_present_simple test_ctx =
     assert (is_not_found "bcd" tree) ;
     assert (get "abcd" tree = 1234)
 
-let test_triestring_insert_present_branches test_ctx =
+let test_triestring_set_present_branches test_ctx =
     let open TrieStringInt in
     let tree = set "abcd" 1234 empty in
     let tree = set "bcd" 234 tree in
@@ -82,7 +82,7 @@ let test_triestring_insert_present_branches test_ctx =
     assert (get "bcd" tree = 234) ;
     assert (get "abcd" tree = 1234)
 
-let test_triestring_insert_invalid_arg test_ctx =
+let test_triestring_set_invalid_arg test_ctx =
     let open TrieStringInt in
     let tree = set "abcd" 1234 empty in
     let tree = set "bcd" 234 tree in
@@ -95,11 +95,31 @@ let test_triestring_insert_invalid_arg test_ctx =
         | d -> false
     )
 
+let test_triestring_set_keys test_ctx =
+    let open TrieStringInt in
+    let tree = set "abcd" 1234 empty in
+    let tree = set "bcd" 234 tree in
+    let tree = set "abc" 123 tree in
+    let tree = set "b" 2 tree in
+    let tree = set "a" 1 tree in
+    assert (keys tree = ["a" ; "abc"; "abcd"; "b"; "bcd"])
+
+let test_triestring_set_items test_ctx =
+    let open TrieStringInt in
+    let tree = set "abcd" 1234 empty in
+    let tree = set "bcd" 234 tree in
+    let tree = set "abc" 123 tree in
+    let tree = set "b" 2 tree in
+    let tree = set "a" 1 tree in
+    assert (items tree = [("a", 1) ; ("abc", 123); ("abcd", 1234); ("b", 2); ("bcd", 234)])
+
 let test_suite = "test_multisets" >::: [
     "TrieStringInt Empty" >:: test_triestring_empty ;
-    "TrieStringInt Insert-Present Simple" >:: test_triestring_insert_present_simple ;
-    "TrieStringInt Insert-Present Branches" >:: test_triestring_insert_present_branches ;
-    "TrieStringInt Insert Invalid_argument" >:: test_triestring_insert_invalid_arg ;
+    "TrieStringInt Set-Present Simple" >:: test_triestring_set_present_simple ;
+    "TrieStringInt Set-Present Branches" >:: test_triestring_set_present_branches ;
+    "TrieStringInt Set Invalid_argument" >:: test_triestring_set_invalid_arg ;
+    "TrieStringInt Set-Keys" >:: test_triestring_set_keys ;
+    "TrieStringInt Set-Items" >:: test_triestring_set_items ;
 ]
 
 let () =

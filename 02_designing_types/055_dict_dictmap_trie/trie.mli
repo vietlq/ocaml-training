@@ -11,6 +11,8 @@ module type TRIE_S = sig
     val set : key list -> value -> t -> t
     val get : key list -> t -> value
     val present : key list -> t -> bool
+    val keys : t -> key list list
+    val items : t -> (key list * value) list
 end
 
 module Make (P : PAIR) :
@@ -24,6 +26,8 @@ module type TRIE_STRING_S = sig
     val set : key -> value -> t -> t
     val get : key -> t -> value
     val present : key -> t -> bool
+    val keys : t -> key list
+    val items : t -> (key * value) list
 end
 
 module type VALUE = sig
