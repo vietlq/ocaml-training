@@ -66,24 +66,24 @@ let is_not_found s dictmap =
 let test_dictmap_empty test_ctx =
     let open Dictmap in
     assert (present "" empty = false) ;
-    assert (is_not_found "" empty) ;
     assert (present "a" empty = false) ;
-    assert (is_not_found "a" empty) ;
     assert (present "b" empty = false) ;
-    assert (is_not_found "b" empty) ;
     assert (present "c" empty = false) ;
-    assert (is_not_found "c" empty) ;
     assert (present "d" empty = false) ;
-    assert (is_not_found "d" empty) ;
     assert (present "e" empty = false) ;
-    assert (is_not_found "e" empty) ;
     assert (present "ab" empty = false) ;
-    assert (is_not_found "ab" empty) ;
     assert (present "abc" empty = false) ;
-    assert (is_not_found "abc" empty) ;
     assert (present "bcd" empty = false) ;
-    assert (is_not_found "bcd" empty) ;
     assert (present "abcd" empty = false) ;
+    assert (is_not_found "" empty) ;
+    assert (is_not_found "a" empty) ;
+    assert (is_not_found "b" empty) ;
+    assert (is_not_found "c" empty) ;
+    assert (is_not_found "d" empty) ;
+    assert (is_not_found "e" empty) ;
+    assert (is_not_found "ab" empty) ;
+    assert (is_not_found "abc" empty) ;
+    assert (is_not_found "bcd" empty) ;
     assert (is_not_found "abcd" empty)
 
 let test_dictmap_insert_present_simple test_ctx =
@@ -98,7 +98,17 @@ let test_dictmap_insert_present_simple test_ctx =
     assert (present "ab" tree = false) ;
     assert (present "abc" tree = false) ;
     assert (present "bcd" tree = false) ;
-    assert (present "abcd" tree)
+    assert (present "abcd" tree) ;
+    assert (is_not_found "" tree) ;
+    assert (is_not_found "a" tree) ;
+    assert (is_not_found "b" tree) ;
+    assert (is_not_found "c" tree) ;
+    assert (is_not_found "d" tree) ;
+    assert (is_not_found "e" tree) ;
+    assert (is_not_found "ab" tree) ;
+    assert (is_not_found "abc" tree) ;
+    assert (is_not_found "bcd" tree) ;
+    assert (get "abcd" tree = 1234)
 
 let test_dictmap_insert_present_branches test_ctx =
     let open Dictmap in
