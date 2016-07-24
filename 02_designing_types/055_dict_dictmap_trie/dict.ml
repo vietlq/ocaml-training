@@ -25,7 +25,7 @@ let rec insert s d =
         )
     in
     match explode s with
-    | [] -> d
+    | [] -> invalid_arg "insert empty string"
     | chars -> descend (chars, d)
 
 let rec present s d =

@@ -25,7 +25,7 @@ let rec set s v d =
         )
     in
     match explode s with
-    | [] -> d
+    | [] -> invalid_arg "set empty key"
     | chars -> descend (chars, d)
 
 let rec get s d =

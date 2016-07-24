@@ -45,10 +45,24 @@ let test_dict_insert_present_branches test_ctx =
     assert (present "bcd" tree) ;
     assert (present "abcd" tree)
 
+let test_dict_insert_invalid_arg test_ctx =
+    let open Dict in
+    let tree = insert "abcd" empty in
+    let tree = insert "bcd" tree in
+    let tree = insert "abc" tree in
+    let tree = insert "b" tree in
+    let tree = insert "a" tree in
+    assert (
+        match insert "" tree with
+        | exception Invalid_argument _ -> true
+        | d -> false
+    )
+
 let test_suite = "test_multisets" >::: [
     "Dict Empty" >:: test_dict_empty ;
     "Dict Insert-Present Simple" >:: test_dict_insert_present_simple ;
     "Dict Insert-Present Branches" >:: test_dict_insert_present_branches ;
+    "Dict Insert Invalid_argument" >:: test_dict_insert_invalid_arg ;
 ]
 
 let () =
