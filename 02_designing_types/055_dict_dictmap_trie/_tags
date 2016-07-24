@@ -1,2 +1,3 @@
 true: package(unix)
 true: package(ounit)
+true: package(str)
