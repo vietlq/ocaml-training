@@ -126,7 +126,17 @@ let test_dictmap_insert_present_branches test_ctx =
     assert (present "ab" tree = false) ;
     assert (present "abc" tree) ;
     assert (present "bcd" tree) ;
-    assert (present "abcd" tree)
+    assert (present "abcd" tree) ;
+    assert (is_not_found "" tree) ;
+    assert (is_not_found "c" tree) ;
+    assert (is_not_found "d" tree) ;
+    assert (is_not_found "e" tree) ;
+    assert (is_not_found "ab" tree) ;
+    assert (get "a" tree = 1) ;
+    assert (get "b" tree = 2) ;
+    assert (get "abc" tree = 123) ;
+    assert (get "bcd" tree = 234) ;
+    assert (get "abcd" tree = 1234)
 
 let test_dictmap_insert_invalid_arg test_ctx =
     let open Dictmap in
