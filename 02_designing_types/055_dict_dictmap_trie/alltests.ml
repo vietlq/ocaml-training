@@ -58,18 +58,33 @@ let test_dict_insert_invalid_arg test_ctx =
         | d -> false
     )
 
+let is_not_found s dictmap =
+    match Dictmap.get s dictmap with
+    | exception Not_found -> true
+    | _ -> false
+
 let test_dictmap_empty test_ctx =
     let open Dictmap in
     assert (present "" empty = false) ;
+    assert (is_not_found "" empty) ;
     assert (present "a" empty = false) ;
+    assert (is_not_found "a" empty) ;
     assert (present "b" empty = false) ;
+    assert (is_not_found "b" empty) ;
     assert (present "c" empty = false) ;
+    assert (is_not_found "c" empty) ;
     assert (present "d" empty = false) ;
+    assert (is_not_found "d" empty) ;
     assert (present "e" empty = false) ;
+    assert (is_not_found "e" empty) ;
     assert (present "ab" empty = false) ;
+    assert (is_not_found "ab" empty) ;
     assert (present "abc" empty = false) ;
+    assert (is_not_found "abc" empty) ;
     assert (present "bcd" empty = false) ;
-    assert (present "abcd" empty = false)
+    assert (is_not_found "bcd" empty) ;
+    assert (present "abcd" empty = false) ;
+    assert (is_not_found "abcd" empty)
 
 let test_dictmap_insert_present_simple test_ctx =
     let open Dictmap in
