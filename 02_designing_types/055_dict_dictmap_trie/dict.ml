@@ -42,10 +42,11 @@ let keys d =
     in
     let rec descend acc sofar = function
         | Node (b , []) -> if b then to_key sofar :: acc else acc
-        | Node (b, (c, d) :: rest) ->
+        | Node (b, (c, d) :: rest) -> (
             let newacc = if b then to_key sofar :: acc else acc in
             let dfs = descend newacc (c :: sofar) d in
             descend dfs sofar (Node (false, rest))
+        )
     in
     List.rev @@ descend [] [] d
 
