@@ -16,4 +16,4 @@ clean:
 	$(OCB) -clean
 	rm -rf *.o *.a *.lib
 	rm -rf *.cmi *.cmx *.cma *.cmxa
-	rm -rf *.bytes *.native _build
+	rm -rf *.byte *.native _build
