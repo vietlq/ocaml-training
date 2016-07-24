@@ -28,8 +28,24 @@ let rec present s d =
     let rec descend = function
         | [], Node (ended, _) -> ended
         | _ :: _, Node (_, []) -> false
-        | x :: xs as chars , Node (ended, (c, d) :: l) ->
+        | x :: xs as chars , Node (ended, (c, d) :: rest) ->
             if x = c then descend (xs, d)
-            else descend (chars, Node (ended, l))
+            else descend (chars, Node (ended, rest))
     in descend (explode s, d)
+
+let keys d =
+    let to_key chars =
+        let len = List.length chars in
+        let bytes = Bytes.create len in
+        List.iteri (fun i c -> Bytes.set bytes (len - i - 1) c) chars ;
+        Bytes.to_string bytes
+    in
+    let rec descend acc sofar = function
+        | Node (b , []) -> if b then to_key sofar :: acc else acc
+        | Node (b, (c, d) :: rest) ->
+            let newacc = if b then to_key sofar :: acc else acc in
+            let dfs = descend newacc (c :: sofar) d in
+            descend dfs sofar (Node (false, rest))
+    in
+    List.rev @@ descend [] [] d
 
