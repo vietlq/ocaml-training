@@ -21,6 +21,7 @@ let rec main dict =
         | "exit", [] -> print_endline "Bye."
         | _, _ -> print_usage () ; main dict
     )
+    | exception End_of_file -> print_endline "Bye."
     | _ -> print_usage () ; main dict
 
 let () =
