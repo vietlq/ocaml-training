@@ -1,6 +1,6 @@
-type 'a dictmap = Empty | Node of 'a option * (char * 'a dictmap) list
+type 'a dictmap = Node of 'a option * (char * 'a dictmap) list
 
-let empty = Empty
+let empty = Node (None, [])
 
 let explode s =
     let rec aux acc n =
@@ -9,19 +9,15 @@ let explode s =
 
 let rec set s v d =
     let rec descend = function
-        | [], Empty -> Empty
-        | [x], Empty -> Node (None, [(x, Node (Some v, []))])
-        | x :: y :: xs, Empty -> Node (None, [(x, descend (y :: xs, Empty))])
         | [], Node (_, subs) -> Node (Some v, subs)
         | [x], Node (ended, []) -> Node (ended, [(x, Node (Some v, []))])
-        | x :: y :: xs, Node (ended, []) -> Node (ended, [(x, descend (y :: xs, Empty))])
+        | x :: y :: xs, Node (ended, []) -> Node (ended, [(x, descend (y :: xs, empty))])
         | x :: xs, Node (ended, (c, d) :: rest) -> (
             if x = c then
                 Node (ended, (c, descend (xs, d)) :: rest)
             else
-                match descend (x :: xs, Node (ended, rest)) with
-                | Empty -> assert false
-                | Node (_, newrest) -> Node (ended, (c, d) :: newrest)
+                let Node (_, newrest) = descend (x :: xs, Node (ended, rest)) in
+                Node (ended, (c, d) :: newrest)
         )
     in
     match explode s with
@@ -30,7 +26,6 @@ let rec set s v d =
 
 let rec get s d =
     let rec descend = function
-        | _, Empty -> None
         | [], Node (ended, _) -> ended
         | _ :: _, Node (_, []) -> None
         | x :: xs as chars , Node (ended, (c, d) :: rest) ->
