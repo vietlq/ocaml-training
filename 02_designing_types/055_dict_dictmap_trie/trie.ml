@@ -15,7 +15,7 @@ end
 
 module Make (P : PAIR) :
     TRIE_S with type key = P.key and type value = P.value = struct
-	
+
 	type key = P.key
 	type value = P.value
 	type t = Empty | Node of value option * (key * t) list
@@ -60,5 +60,43 @@ module Make (P : PAIR) :
 		match get key d with
 		| exception Not_found -> false
 		| v -> true
+end
+
+module type TRIE_STRING_S = sig
+    type t
+    type key = string
+    type value
+    val empty : t
+    val set : key -> value -> t -> t
+    val get : key -> t -> value
+    val present : key -> t -> bool
+end
+
+module type VALUE = sig
+    type value
+end
+
+module Make_TrieString (V : VALUE) :
+    TRIE_STRING_S with type value = V.value = struct
+
+	type key = string
+	type value = V.value
+
+	module TrieString = Make (struct type key = char type value = V.value end)
+
+	type t = TrieString.t
+
+	let empty = TrieString.empty
+
+	let explode s =
+		let rec aux acc n =
+			if n < 0 then acc else aux (s.[n] :: acc) (n - 1) in
+		aux [] (String.length s - 1)
+
+	let set key value d = TrieString.set (explode key) value d
+
+	let get key d = TrieString.get (explode key) d
+
+	let present key d = TrieString.present (explode key) d
 end
 
