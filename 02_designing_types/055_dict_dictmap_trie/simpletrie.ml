@@ -41,39 +41,30 @@ let explode s =
         if n < 0 then acc else aux (s.[n] :: acc) (n - 1) in
     aux [] (String.length s - 1)
 
-let keys d =
+let iter f d =
     let rec descend acc sofar = function
-        | Node (opt, []) -> (
-            match opt with
-            | None -> acc
-            | Some _ -> List.rev sofar :: acc
-        )
+        | Node (opt, []) as node -> f acc sofar node
         | Node (opt, (c, d) :: rest) -> (
-            let newacc = match opt with
-                | None -> acc
-                | Some _ -> List.rev sofar :: acc
-            in
+            let newacc = f acc sofar (Node (opt, [])) in
             let dfs = descend newacc (c :: sofar) d in
             descend dfs sofar (Node (None, rest))
         )
     in
     List.rev @@ descend [] [] d
 
-let items d =
-    let rec descend acc sofar = function
-        | Node (opt, []) -> (
-            match opt with
-            | None -> acc
-            | Some v -> (List.rev sofar, v) :: acc
-        )
-        | Node (opt, (c, d) :: rest) -> (
-            let newacc = match opt with
-                | None -> acc
-                | Some v -> (List.rev sofar, v) :: acc
-            in
-            let dfs = descend newacc (c :: sofar) d in
-            descend dfs sofar (Node (None, rest))
-        )
+let keys d =
+    let f acc sofar (Node (opt, _)) =
+        match opt with
+        | None -> acc
+        | Some _ -> List.rev sofar :: acc
     in
-    List.rev @@ descend [] [] d
+    iter f d
+
+let items d =
+    let f acc sofar (Node (opt, _)) =
+        match opt with
+        | None -> acc
+        | Some v -> (List.rev sofar, v) :: acc
+    in
+    iter f d
 
