@@ -25,35 +25,24 @@ let set s v t =
     | [] -> invalid_arg "set Empty key"
     | chars -> descend (chars, t)
 
+let rec get_aux = function
+    | [], _ | _, Empty -> None
+    | [x], Node (opt, c, l, _, r) ->
+        if x < c then get_aux ([x], l)
+        else if x > c then get_aux ([x], r)
+        else opt
+    | x :: y :: chars, Node (opt, c, l, m, r) ->
+        if x < c then get_aux (x :: y :: chars, l)
+        else if x > c then get_aux (x :: y :: chars, r)
+        else get_aux (y :: chars, m)
+
 let get s t =
-    let rec descend = function
-        | [], _ | _, Empty -> None
-        | [x], Node (opt, c, l, _, r) ->
-            if x < c then descend ([x], l)
-            else if x > c then descend ([x], r)
-            else opt
-        | x :: y :: chars, Node (opt, c, l, m, r) ->
-            if x < c then descend (x :: y :: chars, l)
-            else if x > c then descend (x :: y :: chars, r)
-            else descend (y :: chars, m)
-    in
-    match descend (explode s, t) with
+    match get_aux (explode s, t) with
     | None -> raise Not_found
     | Some v -> v
 
 let present s t =
-    let rec descend = function
-        | [], _ | _, Empty -> None
-        | [x], Node (opt, c, l, _, r) ->
-            if x < c then descend ([x], l)
-            else if x > c then descend ([x], r)
-            else opt
-        | x :: y :: chars, Node (opt, c, l, m, r) ->
-            if x < c then descend (x :: y :: chars, l)
-            else if x > c then descend (x :: y :: chars, r)
-            else descend (y :: chars, m)
-    in
-    match descend (explode s, t) with
+    match get_aux (explode s, t) with
     | None -> false
     | Some _ -> true
 
