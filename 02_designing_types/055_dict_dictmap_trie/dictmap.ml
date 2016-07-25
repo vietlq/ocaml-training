@@ -41,51 +41,36 @@ let rec present s d =
     | exception Not_found -> false
     | v -> true
 
-let keys d =
-    let to_key chars =
-        let len = List.length chars in
-        let bytes = Bytes.create len in
-        List.iteri (fun i c -> Bytes.set bytes (len - i - 1) c) chars ;
-        Bytes.to_string bytes
-    in
+let iter f d =
     let rec descend acc sofar = function
-        | Node (opt, []) -> (
-            match opt with
-            | None -> acc
-            | Some _ -> to_key sofar :: acc
-        )
+        | Node (opt, []) as node -> f acc sofar node
         | Node (opt, (c, d) :: rest) -> (
-            let newacc = match opt with
-                | None -> acc
-                | Some _ -> to_key sofar :: acc
-            in
+            let newacc = f acc sofar (Node (opt, [])) in
             let dfs = descend newacc (c :: sofar) d in
             descend dfs sofar (Node (None, rest))
         )
     in
     List.rev @@ descend [] [] d
 
+let to_key chars =
+    let len = List.length chars in
+    let bytes = Bytes.create len in
+    List.iteri (fun i c -> Bytes.set bytes (len - i - 1) c) chars ;
+    Bytes.to_string bytes
+
+let keys d =
+    let f acc sofar (Node (opt, _)) =
+        match opt with
+        | None -> acc
+        | Some v -> to_key sofar :: acc
+    in
+    iter f d
+
 let items d =
-    let to_key chars =
-        let len = List.length chars in
-        let bytes = Bytes.create len in
-        List.iteri (fun i c -> Bytes.set bytes (len - i - 1) c) chars ;
-        Bytes.to_string bytes
+    let f acc sofar (Node (opt, _)) =
+        match opt with
+        | None -> acc
+        | Some v -> (to_key sofar, v) :: acc
     in
-    let rec descend acc sofar = function
-        | Node (opt, []) -> (
-            match opt with
-            | None -> acc
-            | Some v -> (to_key sofar, v) :: acc
-        )
-        | Node (opt, (c, d) :: rest) -> (
-            let newacc = match opt with
-                | None -> acc
-                | Some v -> (to_key sofar, v) :: acc
-            in
-            let dfs = descend newacc (c :: sofar) d in
-            descend dfs sofar (Node (None, rest))
-        )
-    in
-    List.rev @@ descend [] [] d
+    iter f d
 
