@@ -1,5 +1,16 @@
 open OUnit2 ;;
 
+let print_words = function
+    | [] -> print_endline ""
+    | words -> (
+        let rec aux i = function
+            | [] -> ()
+            | word :: rest ->
+                Printf.printf "\t%6d. %s\n" i word ;
+                aux (i + 1) rest
+        in aux 1 words
+    )
+
 let is_not_found s simple_tst =
     match Simple_tst.get s simple_tst with
     | exception Not_found -> true
@@ -93,7 +104,6 @@ let test_simple_tst_set_invalid_arg test_ctx =
         | d -> false
     )
 
-(*
 let test_simple_tst_set_keys test_ctx =
     let open Simple_tst in
     let tree = set "abcd" 1234 empty in
@@ -101,7 +111,8 @@ let test_simple_tst_set_keys test_ctx =
     let tree = set "abc" 123 tree in
     let tree = set "b" 2 tree in
     let tree = set "a" 1 tree in
-    assert (keys tree = ["a" ; "abc"; "abcd"; "b"; "bcd"])
+    (* assert (keys tree = ["a" ; "abc"; "abcd"; "b"; "bcd"]) *)
+    print_words @@ keys tree
 
 let test_simple_tst_set_items test_ctx =
     let open Simple_tst in
@@ -110,18 +121,16 @@ let test_simple_tst_set_items test_ctx =
     let tree = set "abc" 123 tree in
     let tree = set "b" 2 tree in
     let tree = set "a" 1 tree in
-    assert (items tree = [("a", 1) ; ("abc", 123); ("abcd", 1234); ("b", 2); ("bcd", 234)])
-*)
+    (* assert (items tree = [("a", 1) ; ("abc", 123); ("abcd", 1234); ("b", 2); ("bcd", 234)]) *)
+    print_words @@ keys tree
 
 let test_suite = "test_multisets" >::: [
     "Simple_tst Empty" >:: test_simple_tst_empty ;
     "Simple_tst Set-Present Simple" >:: test_simple_tst_set_present_simple ;
     "Simple_tst Set-Present Branches" >:: test_simple_tst_set_present_branches ;
     "Simple_tst Set Invalid_argument" >:: test_simple_tst_set_invalid_arg ;
-    (*
     "Simple_tst Set-Keys" >:: test_simple_tst_set_keys ;
     "Simple_tst Set-Items" >:: test_simple_tst_set_items ;
-    *)
 ]
 
 let () =

@@ -10,8 +10,8 @@ let explode s =
 let set s v t =
     let rec descend = function
         | [], _ -> assert false
-        | [x], empty -> Node (Some v, x, empty, empty, empty)
-        | x :: y :: chars, empty -> Node (None, x, empty, descend (y :: chars, empty), empty)
+        | [x], Empty -> Node (Some v, x, Empty, Empty, Empty)
+        | x :: y :: chars, Empty -> Node (None, x, Empty, descend (y :: chars, Empty), Empty)
         | [x], Node (opt, c, l, m, r) ->
             if x < c then Node (opt, c, descend ([x], l), m, r)
             else if x > c then Node (opt, c, l, m, descend ([x], r))
@@ -22,7 +22,7 @@ let set s v t =
             else Node (opt, c, l, descend (y :: chars, m), r)
     in
     match explode s with
-    | [] -> invalid_arg "set empty key"
+    | [] -> invalid_arg "set Empty key"
     | chars -> descend (chars, t)
 
 let get s t =
@@ -59,12 +59,40 @@ let present s t =
 
 let iter f t =
     let rec descend acc sofar = function
-        | empty as node -> f acc sofar node
+        | Empty as node -> f acc sofar node
         | Node (opt, c, l, m, r) as node ->
-            let newacc = f acc sofar node in
-            let leftacc = descend newacc sofar l in
-            let midacc = descend leftacc (c :: sofar) m in
+            let leftacc = descend acc sofar l in
+            let newacc = f leftacc sofar node in
+            let midacc = descend newacc (c :: sofar) m in
             let rightacc = descend midacc sofar m in
             rightacc
     in List.rev @@ descend [] [] t
+
+let to_key chars =
+    let len = List.length chars in
+    let bytes = Bytes.create len in
+    List.iteri (fun i c -> Bytes.set bytes (len - i - 1) c) chars ;
+    Bytes.to_string bytes
+
+let keys t =
+    let f acc sofar = function
+        | Empty -> acc
+        | Node (opt, _, _, _, _) -> (
+            match opt with
+            | None -> acc
+            | Some _ -> to_key sofar :: acc
+        )
+    in
+    iter f t
+
+let items t =
+    let f acc sofar = function
+        | Empty -> acc
+        | Node (opt, _, _, _, _) -> (
+            match opt with
+            | None -> acc
+            | Some v -> (to_key sofar, v) :: acc
+        )
+    in
+    iter f t
 
