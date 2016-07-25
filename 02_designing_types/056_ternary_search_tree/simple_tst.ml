@@ -59,10 +59,10 @@ let present s t =
 
 let iter f t =
     let rec descend acc sofar = function
-        | Empty as node -> f acc sofar node
+        | Empty -> acc
         | Node (opt, c, l, m, r) as node ->
             let leftacc = descend acc sofar l in
-            let newacc = f leftacc sofar node in
+            let newacc = f leftacc (c :: sofar) node in
             let midacc = descend newacc (c :: sofar) m in
             let rightacc = descend midacc sofar m in
             rightacc
