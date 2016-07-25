@@ -11,6 +11,7 @@ module type TRIE_S = sig
     val set : key list -> value -> t -> t
     val get : key list -> t -> value
     val present : key list -> t -> bool
+    val iter : ('a list -> key list -> t -> 'a list) -> t -> 'a list
     val keys : t -> key list list
     val items : t -> (key list * value) list
 end
@@ -58,41 +59,32 @@ module Make (P : PAIR) :
         | exception Not_found -> false
         | v -> true
 
-    let keys d =
+    let iter f d =
         let rec descend acc sofar = function
-            | Node (opt, []) -> (
-                match opt with
-                | None -> acc
-                | Some _ -> List.rev sofar :: acc
-            )
+            | Node (opt, []) as node -> f acc sofar node
             | Node (opt, (c, d) :: rest) -> (
-                let newacc = match opt with
-                    | None -> acc
-                    | Some _ -> List.rev sofar :: acc
-                in
+                let newacc = f acc sofar (Node (opt, [])) in
                 let dfs = descend newacc (c :: sofar) d in
                 descend dfs sofar (Node (None, rest))
             )
         in
         List.rev @@ descend [] [] d
 
-    let items d =
-        let rec descend acc sofar = function
-            | Node (opt, []) -> (
-                match opt with
-                | None -> acc
-                | Some v -> (List.rev sofar, v) :: acc
-            )
-            | Node (opt, (c, d) :: rest) -> (
-                let newacc = match opt with
-                    | None -> acc
-                    | Some v -> (List.rev sofar, v) :: acc
-                in
-                let dfs = descend newacc (c :: sofar) d in
-                descend dfs sofar (Node (None, rest))
-            )
+    let keys d =
+        let f acc sofar (Node (opt, _)) =
+            match opt with
+            | None -> acc
+            | Some _ -> List.rev sofar :: acc
         in
-        List.rev @@ descend [] [] d
+        iter f d
+
+    let items d =
+        let f acc sofar (Node (opt, _)) =
+            match opt with
+            | None -> acc
+            | Some v -> (List.rev sofar, v) :: acc
+        in
+        iter f d
 end
 
 module type TRIE_STRING_S = sig

@@ -11,6 +11,7 @@ module type TRIE_S = sig
     val set : key list -> value -> t -> t
     val get : key list -> t -> value
     val present : key list -> t -> bool
+    val iter : ('a list -> key list -> t -> 'a list) -> t -> 'a list
     val keys : t -> key list list
     val items : t -> (key list * value) list
 end
