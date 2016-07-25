@@ -27,6 +27,7 @@ module type TRIE_STRING_S = sig
     val set : key -> value -> t -> t
     val get : key -> t -> value
     val present : key -> t -> bool
+    val iter : ('a list -> char list -> t -> 'a list) -> t -> 'a list
     val keys : t -> key list
     val items : t -> (key * value) list
 end

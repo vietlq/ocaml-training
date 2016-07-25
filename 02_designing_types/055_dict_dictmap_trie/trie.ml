@@ -95,6 +95,7 @@ module type TRIE_STRING_S = sig
     val set : key -> value -> t -> t
     val get : key -> t -> value
     val present : key -> t -> bool
+    val iter : ('a list -> char list -> t -> 'a list) -> t -> 'a list
     val keys : t -> key list
     val items : t -> (key * value) list
 end
@@ -135,6 +136,8 @@ module Make_TrieString (V : VALUE) :
     let item_mapper (chars, v) =
         let key = chars_to_str chars in
         (key, v)
+
+    let iter f d = TrieString.iter f d
 
     let keys d = List.rev @@ List.rev_map chars_to_str @@ TrieString.keys d
 
