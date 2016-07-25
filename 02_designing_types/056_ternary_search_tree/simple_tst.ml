@@ -61,11 +61,11 @@ let iter f t =
     let rec descend acc sofar = function
         | Empty -> acc
         | Node (opt, c, l, m, r) as node ->
-            let leftacc = descend acc sofar l in
-            let newacc = f leftacc (c :: sofar) node in
-            let midacc = descend newacc (c :: sofar) m in
-            let rightacc = descend midacc sofar m in
-            rightacc
+            let acc = descend acc sofar l in
+            let acc = f acc (c :: sofar) node in
+            let acc = descend acc (c :: sofar) m in
+            let acc = descend acc sofar r in
+            acc
     in List.rev @@ descend [] [] t
 
 let to_key chars =
@@ -76,23 +76,15 @@ let to_key chars =
 
 let keys t =
     let f acc sofar = function
-        | Empty -> acc
-        | Node (opt, _, _, _, _) -> (
-            match opt with
-            | None -> acc
-            | Some _ -> to_key sofar :: acc
-        )
+        | Empty | Node (None, _, _, _, _) -> acc
+        | Node (Some _, _, _, _, _) -> to_key sofar :: acc
     in
     iter f t
 
 let items t =
     let f acc sofar = function
-        | Empty -> acc
-        | Node (opt, _, _, _, _) -> (
-            match opt with
-            | None -> acc
-            | Some v -> (to_key sofar, v) :: acc
-        )
+        | Empty | Node (None, _, _, _, _) -> acc
+        | Node (Some v, _, _, _, _) -> (to_key sofar, v) :: acc
     in
     iter f t
 

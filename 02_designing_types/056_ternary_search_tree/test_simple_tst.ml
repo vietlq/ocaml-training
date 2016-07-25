@@ -77,6 +77,13 @@ let test_simple_tst_set_present_branches test_ctx =
     assert (present "d" tree = false) ;
     assert (present "e" tree = false) ;
     assert (present "ab" tree = false) ;
+    assert (present "abd" tree = false) ;
+    assert (present "ac" tree = false) ;
+    assert (present "acd" tree = false) ;
+    assert (present "ad" tree = false) ;
+    assert (present "bc" tree = false) ;
+    assert (present "bd" tree = false) ;
+    assert (present "cd" tree = false) ;
     assert (present "abc" tree) ;
     assert (present "bcd" tree) ;
     assert (present "abcd" tree) ;
@@ -111,8 +118,22 @@ let test_simple_tst_set_keys test_ctx =
     let tree = set "abc" 123 tree in
     let tree = set "b" 2 tree in
     let tree = set "a" 1 tree in
-    (* assert (keys tree = ["a" ; "abc"; "abcd"; "b"; "bcd"]) *)
-    print_words @@ keys tree
+    assert (keys tree = ["a" ; "abc"; "abcd"; "b"; "bcd"])
+
+let test_simple_tst_set_real_keys_meaningful test_ctx =
+    let open Simple_tst in
+    let tree = set "books" 1 empty in
+    let tree = set "book" 2 tree in
+    let tree = set "booked" 3 tree in
+    let tree = set "angel" 4 tree in
+    let tree = set "angels" 5 tree in
+    let tree = set "angle" 6 tree in
+    let tree = set "cook" 7 tree in
+    let tree = set "cooker" 8 tree in
+    let tree = set "cookies" 9 tree in
+    let tree = set "cookie" 10 tree in
+    let tree = set "cooked" 11 tree in
+    assert (keys tree = ["angel" ; "angels" ; "angle" ; "book" ; "booked" ; "books" ; "cook" ; "cooked" ; "cooker" ; "cookie" ; "cookies"])
 
 let test_simple_tst_set_items test_ctx =
     let open Simple_tst in
@@ -121,8 +142,7 @@ let test_simple_tst_set_items test_ctx =
     let tree = set "abc" 123 tree in
     let tree = set "b" 2 tree in
     let tree = set "a" 1 tree in
-    (* assert (items tree = [("a", 1) ; ("abc", 123); ("abcd", 1234); ("b", 2); ("bcd", 234)]) *)
-    print_words @@ keys tree
+    assert (items tree = [("a", 1) ; ("abc", 123); ("abcd", 1234); ("b", 2); ("bcd", 234)])
 
 let test_suite = "test_multisets" >::: [
     "Simple_tst Empty" >:: test_simple_tst_empty ;
@@ -130,6 +150,7 @@ let test_suite = "test_multisets" >::: [
     "Simple_tst Set-Present Branches" >:: test_simple_tst_set_present_branches ;
     "Simple_tst Set Invalid_argument" >:: test_simple_tst_set_invalid_arg ;
     "Simple_tst Set-Keys" >:: test_simple_tst_set_keys ;
+    "Simple_tst Set-KeysMeangingful" >:: test_simple_tst_set_real_keys_meaningful ;
     "Simple_tst Set-Items" >:: test_simple_tst_set_items ;
 ]
 
