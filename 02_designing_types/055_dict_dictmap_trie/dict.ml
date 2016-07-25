@@ -33,6 +33,17 @@ let rec present s d =
             else descend (chars, Node (ended, rest))
     in descend (explode s, d)
 
+let iter f d =
+    let rec descend acc sofar = function
+        | Node (b, []) as node -> f acc sofar node
+        | Node (b, (c, d) :: rest) -> (
+            let newacc = f acc sofar (Node (b, [])) in
+            let dfs = descend newacc (c :: sofar) d in
+            descend dfs sofar (Node (false, rest))
+        )
+    in
+    List.rev @@ descend [] [] d
+
 let keys d =
     let to_key chars =
         let len = List.length chars in
@@ -40,13 +51,6 @@ let keys d =
         List.iteri (fun i c -> Bytes.set bytes (len - i - 1) c) chars ;
         Bytes.to_string bytes
     in
-    let rec descend acc sofar = function
-        | Node (b , []) -> if b then to_key sofar :: acc else acc
-        | Node (b, (c, d) :: rest) -> (
-            let newacc = if b then to_key sofar :: acc else acc in
-            let dfs = descend newacc (c :: sofar) d in
-            descend dfs sofar (Node (false, rest))
-        )
-    in
-    List.rev @@ descend [] [] d
+    let f acc sofar (Node (b, _)) = if b then to_key sofar :: acc else acc in
+    iter f d
 
