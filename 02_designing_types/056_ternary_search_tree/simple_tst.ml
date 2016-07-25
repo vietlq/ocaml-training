@@ -10,8 +10,8 @@ let explode s =
 let set s v t =
     let rec descend = function
         | [], _ -> assert false
-        | [x], Empty -> Node (Some v, x, Empty, Empty, Empty)
-        | x :: y :: chars, Empty -> Node (None, x, Empty, descend (y :: chars, Empty), Empty)
+        | [x], empty -> Node (Some v, x, empty, empty, empty)
+        | x :: y :: chars, empty -> Node (None, x, empty, descend (y :: chars, empty), empty)
         | [x], Node (opt, c, l, m, r) ->
             if x < c then Node (opt, c, descend ([x], l), m, r)
             else if x > c then Node (opt, c, l, m, descend ([x], r))
@@ -56,4 +56,15 @@ let present s t =
     match descend (explode s, t) with
     | None -> false
     | Some _ -> true
+
+let iter f t =
+    let rec descend acc sofar = function
+        | empty as node -> f acc sofar node
+        | Node (opt, c, l, m, r) as node ->
+            let newacc = f acc sofar node in
+            let leftacc = descend newacc sofar l in
+            let midacc = descend leftacc (c :: sofar) m in
+            let rightacc = descend midacc sofar m in
+            rightacc
+    in List.rev @@ descend [] [] t
 
