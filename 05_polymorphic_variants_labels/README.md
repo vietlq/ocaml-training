@@ -192,7 +192,7 @@ The value `dir` is considered of both variant types and understood by both `pars
 
 Intuitively, a polymorphic variant constructor:
 
-* Can be seen as a singleton type `````U``` is the only value of type ```[`U]```
+* Can be seen as a singleton type *`U* is the only value of type ```[`U]```
 * Can be included in bigger polymorphic variant types
 * ```[`U | `V]``` is the union of singletons ```[`U]``` and ```[`V]```
 
