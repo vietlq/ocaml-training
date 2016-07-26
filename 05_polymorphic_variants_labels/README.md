@@ -145,6 +145,25 @@ let translate ?x ?y ?z () = (* ... *)
 
 ### Sum types with inferred definition
 
+Basic use case: Introduce constructors without type definition:
+
+```ocaml
+let arrow : int -> [`Left | `Right | `Both] -> string = fun len head ->
+    match head with
+    | `Left -> "<" ^ String.make len '-'
+    | `Right -> String.make len '-' ^ ">"
+    | `Both -> "<" ^ String.make len '-' ^ ">"
+```
+
+Syntax:
+
+* Constructors prefixed with a backquote `Constructor
+* Type alias:
+
+```ocaml
+[`Constructor of type | `Constructor | ... ]
+```
+
 ### Constructor sharing
 
 ### Subtyping
