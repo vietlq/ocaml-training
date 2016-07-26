@@ -225,6 +225,31 @@ In objects, the `..` only meant and possibly other method. For polymorphic varia
 [< `U | `V | `W > `U | `V | ]
 ```
 
+Intuition:
+
+* The form ```[< `U | `V | `W]``` is used for expected values
+
+```ocaml
+let f : [< `U | `V | `W] list -> unit = fun l ->
+    List.iter (function `U -> () | `V -> () | `W -> ()) l
+let () = f ([`U ; `U] : `U list)
+```
+
+ * The value passed may be always `U
+ * But it may never be `Z
+ * This is called a `covariant` position
+
+* The form ```[> `U | `V | `W]``` is used for result values
+
+```ocaml
+let l : [> `U | `W] = [`U ; `W]
+List.iter (function `U -> () | `V -> () | `W -> ()) l
+```
+
+ * Not treating a value `U, `V or `W would cause an error
+ * You can try and treat any other constructor safely
+ * This is called a `contravariant` position
+
 ### Aliases
 
 ## Patterns
