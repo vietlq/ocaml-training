@@ -393,9 +393,9 @@ end = struct
     let abs n = abs n
     let to_int n = n
 end
+```
 
 Property: Once an integer is classified, all operations on it won't fail.
-```
 
 ## References
 
