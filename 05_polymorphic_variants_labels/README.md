@@ -137,11 +137,19 @@ End of application:
 
 The body is executed once the `()` is passed:
 
-```
+```ocaml
 let translate ?x ?y ?z () = (* ... *)
 ```
 
 ## Polymorphic Variants
+
+### Sum types with inferred definition
+
+### Constructor sharing
+
+### Subtyping
+
+### Aliases
 
 ## Patterns
 
