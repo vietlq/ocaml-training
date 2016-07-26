@@ -194,13 +194,13 @@ Intuitively, a polymorphic variant constructor:
 
 * Can be seen as a singleton type *`U* is the only value of type *[`U]*
 * Can be included in bigger polymorphic variant types
-* *[`U | `V]* is the union of singletons *[`U]* and *[`V]*
+* ```[`U | `V]``` is the union of singletons *[`U]* and *[`V]*
 
 This generalizes to a partial order (subtyping relation) order on variant types:
 
 * *[`U]* is included in *[`U | `V]*
 * *[`U | `V]* is included in *[`U | `V | `W]*
-* *[`U | `V]* and *[`V | `W]* are not compatible
+* ```[`U | `V]``` and ```[`V | `W]``` are not compatible
 
 As with object, this is `structural typing`
 
