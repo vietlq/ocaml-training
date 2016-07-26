@@ -246,7 +246,7 @@ let l : [> `U | `W] = [`U ; `W]
 List.iter (function `U -> () | `V -> () | `W -> ()) l
 ```
 
- * Not treating a value `U, `V or `W would cause an error
+ * Not treating a value ``` `U, `V or `W ``` would cause an error
  * You can try and treat any other constructor safely
  * This is called a `contravariant` position
 
