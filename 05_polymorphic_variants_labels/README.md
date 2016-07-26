@@ -190,6 +190,41 @@ The value `dir` is considered of both variant types and understood by both `pars
 
 ### Subtyping
 
+Intuitively, a polymorphic variant constructor:
+
+* Can be seen as a singleton type *`U* is the only value of type *[`U]*
+* Can be included in bigger polymorphic variant types
+* *[`U | `V]* is the union of singletons *[`U]* and *[`V]*
+
+This generalizes to a partial order (subtyping relation) order on variant types:
+
+* *[`U]* is included in *[`U | `V]*
+* *[`U | `V]* is included in *[`U | `V | `W]*
+* *[`U | `V]* and *[`V | `W]* are not compatible
+
+As with object, this is `structural typing`
+
+* Polymorphic variant types do not need names
+* Their type is their structure, not their name
+
+The type system handles these subtyping relations through variables, as with objects.
+
+In objects, the `..` only meant and possibly other method. For polymorphic variant types, more notations are available:
+
+```ocaml
+(* A type whose constructors are `U, `V and `W *)
+[`U | `V | `W]
+
+(* A type whose constructors are at least `U, `V and `W *)
+[> `U | `V | `W]
+
+(* A type whose constructors are at most `U, `V and `W *)
+[< `U | `V | `W]
+
+(* A type whose constructors are `U, `V and optionally `W *)
+[< `U | `V | `W > `U | `V | ]
+```
+
 ### Aliases
 
 ## Patterns
