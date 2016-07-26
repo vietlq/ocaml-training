@@ -51,7 +51,49 @@ delimit "xx" ~post:"<" ~pre:">" ;;
 * Labeled arguments can be put in any order, mixed with others
 * Other arguments must be passed in declaration order
 
+Partial application:
+
+```ocaml
+let prefix = delimit ~post:""
+let postfix = delimit ~pre:""
+let wrap = delimit ~pre:"(" ~post:")"
+```
+
+**Note:** Labels are required for partial application.
+
+Simplification:
+
+```ocaml
+let pre = "<" and post = ">" in
+delimit ~pre ~post "Great!"
+```
+
 #### Optional Arguments
+
+Let's write a function that concatenates the strings in a list with a separator:
+
+```ocaml
+let rec concat sep = function
+    | [] -> ""
+    | [single] -> single
+    | word :: words -> word ^ sep ^ concat sep words
+```
+
+Many times when we want to join strings, we had to write in an ugly way: `concat "" strings`.
+
+So there's a room for improvement and we should think of using optional arguments:
+
+```ocaml
+let concat ?sep:string strings =
+    let rec aux strings =
+        match strings, sep with
+        | [], _ -> ""
+        | [single], _ -> single
+        | word :: words, Some sep -> word ^ sep ^ cat words
+        | word :: words, None -> word ^ cat words
+    in
+    aux strings
+```
 
 ### Polymorphic Variants
 
