@@ -235,9 +235,9 @@ let f : [< `U | `V | `W] list -> unit = fun l ->
 let () = f ([`U ; `U] : `U list)
 ```
 
- * The value passed may be always `U
- * But it may never be `Z
- * This is called a `covariant` position
+* The value passed may be always `U
+* But it may never be `Z
+* This is called a `covariant` position
 
 * The form ```[> `U | `V | `W]``` is used for result values
 
@@ -246,9 +246,51 @@ let l : [> `U | `W] = [`U ; `W]
 List.iter (function `U -> () | `V -> () | `W -> ()) l
 ```
 
- * Not treating a value ``` `U, `V or `W ``` would cause an error
- * You can try and treat any other constructor safely
- * This is called a `contravariant` position
+* Not treating a value ``` `U, `V or `W ``` would cause an error
+* You can try and treat any other constructor safely
+* This is called a `contravariant` position
+
+OCaml always infers the most generic type, including row variables and their variance.
+
+This is easily verified with pattern matching:
+
+```ocaml
+let f = function `X -> `A | `Y -> `B
+```
+
+Is inferred to be of type:
+
+```ocaml
+[< `X | `Y] -> [> `A | `B]
+```
+
+If the type is too generic, one can refine it with:
+
+* A checked annotation:
+
+```ocaml
+let f : [`X | `Y] -> [`A | `B]
+    = function `X -> `A | `Y -> `B
+```
+
+* An interface:
+
+```ocaml
+module M :
+sig
+    val f : [`X] -> [`A | `B]
+end = struct
+    let f = function `X -> 'A | `Y -> `B
+end
+```
+
+For instance if ``` `Y ``` is reserved for module internal use
+
+* A type coercion:
+
+```ocaml
+let u = (`U :> [`U | `V])
+```
 
 ### Aliases
 
