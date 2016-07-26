@@ -198,8 +198,8 @@ Intuitively, a polymorphic variant constructor:
 
 This generalizes to a partial order (subtyping relation) order on variant types:
 
-* *[`U]* is included in *[`U | `V]*
-* *[`U | `V]* is included in *[`U | `V | `W]*
+* *[`U]* is included in ```[`U | `V]```
+* ```[`U | `V]``` is included in ```[`U | `V | `W]```
 * ```[`U | `V]``` and ```[`V | `W]``` are not compatible
 
 As with object, this is `structural typing`
