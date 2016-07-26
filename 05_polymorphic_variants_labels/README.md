@@ -309,5 +309,65 @@ These names can be used:
 
 ## Patterns
 
+### Split & join cases
+
+Suppose we have an expression type with operators over bools and ints.
+
+```ocaml
+type expr =
+    [ `And of bool * bool
+    | `Not of bool
+    | `Add of int * int
+    | `Neg of int ]
+```
+
+We can write two dedicated evaluation functions for clarity:
+
+```ocaml
+let eval_bool_op = function
+    | `And (x, y) -> x && y
+    | `Not x -> not x
+
+let eval_int_op = function
+    | `Add (x, y) -> x + y
+    | `Neg x -> - x
+```
+
+Their signatures:
+
+```ocaml
+val eval_bool_op : [< `And of bool * bool | `Not of bool ] -> bool
+
+val eval_int_op : [< `Add of int * int | `Neg of int ] -> int
+```
+
+We then could join & split cases:
+
+```ocaml
+let eval_op = function
+    | `And _ | `Not _ as bool_op -> `Bool (eval_bool_op bool_op)
+    | `Add _ | `Neg _ as int_op -> `Int (eval_int_op int_op)
+```
+
+The function above has the signature:
+
+```ocaml
+val eval_op :
+  [< `Add of int * int | `And of bool * bool | `Neg of int | `Not of bool ] ->
+  [> `Bool of bool | `Int of int ]
+```
+
+### Objects, Labels & Variants
+
+Object oriented APIs can be made more appealing with this combination. One of the goal is to simulate constructor overloading. E.g.:
+
+```ocaml
+class hbox :
+    ?spacing:int ->
+    ?homogeneous:bool ->
+    ?vertical_align: [< `Top | `Bottom | `Center | `Fill]
+    #component list -> component
+```
+
 ## References
 
