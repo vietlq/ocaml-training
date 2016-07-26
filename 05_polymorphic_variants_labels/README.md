@@ -294,6 +294,19 @@ let u = (`U :> [`U | `V])
 
 ### Aliases
 
+Polymorphic variant types can be named:
+
+```ocaml
+type xyz = [`X | `Y | `Z]
+```
+
+These names can be used:
+
+* As any other type alias
+* Prefixed with a hash to open the type `#xyz` means ``` [> `X | `Y | `Z] ```
+* In other variant definitions: ``` type wxyz = [`W | xyz] ```
+* In match cases as a shortcut for all constructors: ``` match v with #xyz -> () ```
+
 ## Patterns
 
 ## References
