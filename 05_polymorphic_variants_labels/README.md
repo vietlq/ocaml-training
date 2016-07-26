@@ -369,5 +369,33 @@ class hbox :
     #component list -> component
 ```
 
+### Phantom types with variant tags
+
+Phantom type parameters are ones that unused in the definition. Using module abstraction, these variables can be forced. This is used to encode human checked typing properties.
+
+See `TyXML` that encodes XHTML well-formedness this way.
+
+A library for classifying ints:
+
+```ocaml
+module Checked_string : sig
+    type +'a t
+    val positive : int -> [> `P] t
+    val negative : int -> [> `N] t
+    val (mod) : [< `P] t -> [< `P] t -> [> `P] t
+    val abs : [< `P | `N] t -> [> `P] t
+    val to_int : [< `P | `N] t
+end = struct
+    type 'a t = int
+    let positive n = if n < 0 then invalid_arg "positive" else n
+    let negative n = if n > 0 then invalid_arg "negative" else n
+    let (mod) x n = x mod n
+    let abs n = abs n
+    let to_int n = n
+end
+
+Property: Once an integer is classified, all operations on it won't fail.
+```
+
 ## References
 
