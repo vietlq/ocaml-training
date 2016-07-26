@@ -1,8 +1,8 @@
-## Polymorphic Variants, Labels
+# Polymorphic Variants, Labels
 
-### Labeled & Optional Arguments
+## Labeled & Optional Arguments
 
-#### Labeled Arguments
+### Labeled Arguments
 
 Let's define a function that adds a prefix & a postfix to a string:
 
@@ -68,7 +68,7 @@ let pre = "<" and post = ">" in
 delimit ~pre ~post "Great!"
 ```
 
-#### Optional Arguments
+### Optional Arguments
 
 Let's write a function that concatenates the strings in a list with a separator:
 
@@ -133,17 +133,17 @@ End of application:
 
 * Application starts once a non-optional, non-labeled argument is passed
 * Functions must have a non-optional argument after the optional ones
-* A placeholder () can be used
+* A placeholder `()` can be used
 
-The body is executed once the () is passed:
+The body is executed once the `()` is passed:
 
 ```
 let translate ?x ?y ?z () = (* ... *)
 ```
 
-### Polymorphic Variants
+## Polymorphic Variants
 
-### Patterns
+## Patterns
 
-### References
+## References
 
