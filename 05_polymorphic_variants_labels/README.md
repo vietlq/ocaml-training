@@ -166,6 +166,28 @@ Syntax:
 
 ### Constructor sharing
 
+Two polymorphic variant types can define the same constructor:
+
+```ocaml
+let arrow : int -> [`Left | `Right | `Both] -> string = fun len head ->
+    match head with
+    | `Left -> "<" ^ String.make len '-'
+    | `Right -> String.make len '-' ^ ">"
+    | `Both -> "<" ^ String.make len '-' ^ ">"
+
+let parse_arrow_direction : char -> [`Left | `Right | `Knee] = function
+    | '<' -> `Left
+    | '>' -> `Right
+    | _ -> `Knee
+
+let arrow_from_direction dir =
+    match parse_arrow_direction dir with
+    | (`Left | `Right) as dir -> arrow 20 dir
+    | `Knee -> failwith "in the knee"
+```
+
+The value `dir` is considered of both variant types and understood by both `parse_arrow_direction` and `arrow`.
+
 ### Subtyping
 
 ### Aliases
