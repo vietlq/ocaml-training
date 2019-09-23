@@ -104,6 +104,9 @@ and set_rotate_90_impl (key, value) =
   if key = "/Rotate" then (key, Pdf.Integer 90)
   else (key, set_rotate_90 value)
 
+(**
+  Trying [pdfobject_of_tree] and [tree_of_pdfobject]
+*)
 let () =
   let tree1 = Br (Lf, 1, Br (Br (Lf, 3, Lf), 2, Lf)) in
   tree1
