@@ -114,10 +114,10 @@ let objects_1_page_hex = [(1,
                           (4,
                            Pdf.Stream
                              (Pdf.Dictionary [
-                                 ("/Length", Pdf.Integer 155);
+                                 ("/Length", Pdf.Integer 158);
                                  ("/Filter", Pdf.Name "/ASCIIHexDecode");
                                ],
-                              "31 20 30 20 30 20 31 20 35 30 20 37 37 30 20 63 6D 20 42 54 20 2F 46 30 20 33 36 20 54 66 20 28 48 65 6C 6C 6F 2C 20 57 6F 72 6C 64 21 29 20 54 6A 20 45 54"))]
+                              "31 20 30 20 30 20 31 20 35 30 20 37 37 30 20 63 6D 20 42 54 20 2F 46 30 20 33 36 20 54 66 20 28 46 65 6C 69 78 20 69 73 20 63 75 74 65 21 29 20 54 6A 20 45 54"))]
 
 let hello_1_page =
   {Pdf.version = (1, 1);
