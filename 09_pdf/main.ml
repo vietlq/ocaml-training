@@ -39,6 +39,9 @@ let hello =
     [("/Size", Pdf.Integer 5);
       ("/Root", Pdf.Indirect 2)]}
 
+(*
+  Solution to Chapter 13. Question 2.
+*)
 let c13q2_answer_1 = Pdf.Name "/Name"
 
 let c13q2_answer_2 = Pdf.String "(Quartz Crystal)"
@@ -64,3 +67,38 @@ let c13q2_answer_5 = Pdf.Array [
   (Pdf.Integer 0);
   (Pdf.String "R");
 ]
+
+(*
+  Solution to Chapter 13. Question 3.
+*)
+type tree = Lf | Br of tree * int * tree
+
+let rec pdfobject_of_tree tree =
+  match tree with
+  | Lf -> Pdf.Boolean false
+  | Br (left, key, right) -> Pdf.Array [
+    pdfobject_of_tree left;
+    Pdf.Integer key;
+    pdfobject_of_tree right;
+  ]
+
+let rec tree_of_pdfobject pdfobj =
+  match pdfobj with
+  | Pdf.Boolean false -> Lf
+  | Pdf.Array [
+    left;
+    Pdf.Integer key;
+    right;
+  ] -> Br (tree_of_pdfobject left, key, tree_of_pdfobject right)
+  | _ -> failwith "Invalid tree shape!"
+
+(*
+  Solution to Chapter 13. Question 4.
+*)
+
+let () =
+  let tree1 = Br (Lf, 1, Br (Br (Lf, 3, Lf), 2, Lf)) in
+  tree1
+  |> pdfobject_of_tree
+  |> tree_of_pdfobject
+  |> ignore
