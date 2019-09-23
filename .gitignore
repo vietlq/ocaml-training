@@ -7,3 +7,4 @@
 *.native
 *.byte
 _build
+a.out
