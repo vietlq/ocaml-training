@@ -112,3 +112,9 @@ let () =
   |> pdfobject_of_tree
   |> tree_of_pdfobject
   |> ignore
+
+(**
+  Write "Hello, World" to the target PDF
+*)
+let () =
+  Pdfwrite.pdf_to_file hello "test-hello.pdf"
