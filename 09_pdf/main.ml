@@ -95,6 +95,14 @@ let rec tree_of_pdfobject pdfobj =
 (*
   Solution to Chapter 13. Question 4.
 *)
+let rec set_rotate_90 (pdfobj : Pdf.pdfobject) : Pdf.pdfobject =
+  match pdfobj with
+  | Pdf.Dictionary dict ->
+    Pdf.Dictionary (List.map set_rotate_90_impl dict)
+  | _ as po -> po
+and set_rotate_90_impl (key, value) =
+  if key = "/Rotate" then (key, Pdf.Integer 90)
+  else (key, set_rotate_90 value)
 
 let () =
   let tree1 = Br (Lf, 1, Br (Br (Lf, 3, Lf), 2, Lf)) in
