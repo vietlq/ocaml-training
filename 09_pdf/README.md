@@ -1,3 +1,10 @@
+* https://www.oreilly.com/library/view/developing-with-pdf/9781449327903/
+* http://shop.oreilly.com/product/0636920021483.do
+* http://www.printmyfolders.com/understanding-pdf
+* http://www.printmyfolders.com/Home/understanding-the-portable-document-format-pdf-part-2
+* https://github.com/galkahana/HummusJS/wiki/Use-the-pdf-drawing-operators
+* https://eternal-todo.com/blog/filters-flatedecode-pdf
+* https://www.pdflabs.com/tools/gnu-barcode-plus-pdf/
 * https://blog.didierstevens.com/2008/05/19/pdf-stream-objects/
 * http://binaryhax0r.blogspot.com/2010/06/flatedecode-decoder.html
 * https://blog.avast.com/2011/04/22/another-nasty-trick-in-malicious-pdf/
