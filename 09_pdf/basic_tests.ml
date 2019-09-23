@@ -67,10 +67,10 @@ let objects_3_pages = [(1,
                           [("/Type", Pdf.Name "/Pages");
                            (* The kid is the object 1 which is the page *)
                            ("/Kids", Pdf.Array [
-                             Pdf.Indirect 1;
-                             Pdf.Indirect 1;
-                             Pdf.Indirect 1;
-                            ]);
+                               Pdf.Indirect 1;
+                               Pdf.Indirect 1;
+                               Pdf.Indirect 1;
+                             ]);
                            (* The total number of pages *)
                            ("/Count", Pdf.Integer 3)]);
                        (4,
@@ -78,9 +78,58 @@ let objects_3_pages = [(1,
                           (Pdf.Dictionary [("/Length", Pdf.Integer 53)],
                            "1 0 0 1 50 770 cm BT /F0 36 Tf (Hello, World!) Tj ET"))]
 
+let objects_1_page_hex = [(1,
+                           Pdf.Dictionary
+                             [("/Type", Pdf.Name "/Page");
+                              (* Parent is the object 3 *)
+                              ("/Parent", Pdf.Indirect 3);
+                              ("/Resources",
+                               Pdf.Dictionary
+                                 [("/Font",
+                                   Pdf.Dictionary
+                                     [("/F0",
+                                       Pdf.Dictionary
+                                         [("/Type", Pdf.Name "/Font");
+                                          ("/Subtype", Pdf.Name "/Type1");
+                                          ("/BaseFont", Pdf.Name "/Times-Italic")])])]);
+                              ("/MediaBox",
+                               Pdf.Array
+                                 [Pdf.Float 0.; Pdf.Float 0.;
+                                  Pdf.Float 595.275590551; Pdf.Float 841.88976378]);
+                              ("/Rotate", Pdf.Integer 0);
+                              (* The content is stored in the object 4 *)
+                              ("/Contents", Pdf.Array [Pdf.Indirect 4])]);
+                          (2,
+                           Pdf.Dictionary
+                             [("/Type", Pdf.Name "/Catalog");
+                              (* The pages are defined at the object 3 *)
+                              ("/Pages", Pdf.Indirect 3)]);
+                          (3,
+                           Pdf.Dictionary
+                             [("/Type", Pdf.Name "/Pages");
+                              (* The kid is the object 1 which is the page *)
+                              ("/Kids", Pdf.Array [Pdf.Indirect 1]);
+                              (* The total number of pages *)
+                              ("/Count", Pdf.Integer 1)]);
+                          (4,
+                           Pdf.Stream
+                             (Pdf.Dictionary [
+                                 ("/Length", Pdf.Integer 155);
+                                 ("/Filter", Pdf.Name "/ASCIIHexDecode");
+                               ],
+                              "31 20 30 20 30 20 31 20 35 30 20 37 37 30 20 63 6D 20 42 54 20 2F 46 30 20 33 36 20 54 66 20 28 48 65 6C 6C 6F 2C 20 57 6F 72 6C 64 21 29 20 54 6A 20 45 54"))]
+
 let hello_1_page =
   {Pdf.version = (1, 1);
    Pdf.objects = objects_1_page;
+   Pdf.trailer =
+     Pdf.Dictionary
+       [("/Size", Pdf.Integer 5);
+        ("/Root", Pdf.Indirect 2)]}
+
+let hello_1_page_hex =
+  {Pdf.version = (1, 1);
+   Pdf.objects = objects_1_page_hex;
    Pdf.trailer =
      Pdf.Dictionary
        [("/Size", Pdf.Integer 5);
@@ -176,4 +225,5 @@ let () =
 *)
 let () =
   Pdfwrite.pdf_to_file hello_1_page "test-hello-1-page.pdf";
+  Pdfwrite.pdf_to_file hello_1_page_hex "test-hello-1-page-hex.pdf";
   Pdfwrite.pdf_to_file hello_3_page "test-hello-3-pages.pdf";
