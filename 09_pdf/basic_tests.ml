@@ -153,7 +153,10 @@ let rec set_rotate_90 (pdfobj : Pdf.pdfobject) : Pdf.pdfobject =
   match pdfobj with
   | Pdf.Dictionary dict ->
     Pdf.Dictionary (List.map set_rotate_90_impl dict)
-  | _ as po -> po
+  | Pdf.Array arr ->
+    Pdf.Array (List.map set_rotate_90 arr)
+  | Pdf.Stream (dict, str) -> Pdf.Stream (set_rotate_90 dict, str)
+  |  x -> x
 and set_rotate_90_impl (key, value) =
   if key = "/Rotate" then (key, Pdf.Integer 90)
   else (key, set_rotate_90 value)
